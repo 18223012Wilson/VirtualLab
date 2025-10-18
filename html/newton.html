@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Lab: Lab Hukum Newton II</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Virtual Lab: Fisika</h1>
+            <nav>
+                <!-- Tautan menuju beranda -->
+                <a href="home.html"><button id="nav-home" class="active">Beranda</button></a>
+                <!-- Tautan menuju Quiz -->
+                <a href="quiz.html"><button id="nav-quiz">Quiz</button></a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Tampilan Lab Hukum Newton -->
+        <section id="newton-lab-view" class="view-container lab-layout">
+            <h2 class="lab-title">Hukum Newton II</h2>
+            <p class="lab-subtitle">Hukum Newton adalah hukum gerak yang menjadi hukum dasar dinamika dengan merumuskan gaya terhadap pengaruh gerak pada benda tertentu. Rumus ini kemudian dikenal dengan istilah Hukum I Newton, Hukum II Newton, dan Hukum III Newton.</p>
+            <p class="lab-subtitle">Pada laman ini, kita akan menjelajahi lebih jauh tentang Hukum II Newton yang berbunyi: “Percepatan yang terjadi karena perubahan dari kecepatan pada suatu benda akan sebanding dengan resultan gaya atau jumlah gaya yang bekerja pada benda tersebut dan akan berbanding terbalik dengan massa benda”</p>
+            <p class="lab-subtitle">Hukum II Newton adalah hukum Newton yang berkaitan dengan kondisi benda yang bergerak dalam keadaan massa benda dan gaya yang ada pada benda tersebut juga diperhitungkan. Hal ini menunjukan percepatan benda akan berbanding lurus dengan gaya total yang bekerja pada benda tersebut, sedangkan massanya akan berbanding terbalik dengan percepatan benda. Arah percepatan benda akan sama dengan arah gaya total yang bekerja pada benda tersebut.</p>
+            <p class="lab-subtitle">Melalui Hukum II Newton gaya benda kemudian akan menjadi semakin besar jika memperoleh kekuatan gaya yang searah dengan laju benda tersebut bergerak. Sebaliknya, jika diberikan gaya berlawanan atau bertolak belakang melawan gaya benda, maka laju gaya akan semakin lambat atau kecepatannya mengecil karena terjadi perubahan kecepatan dan laju yang berubah.</p>
+            <p class="lab-subtitle">Besar kecilnya lambat atau cepat yang dimiliki benda bergerak tersebut, maka akan memengaruhi arah gerak benda. Hukum ini menjelaskan resultan gaya yang bekerja pada suatu benda tidak sama dengan nol, maka benda tersebut akan bergerak dengan kecepatan tertentu, alias benda yang bergerak pasti memiliki percepatan.</p>
+            <p class="lab-subtitle">Berikut adalah rumus-rumus yang berkaitan dengan Hukum II Newton:</p>
+            <div class="lab-image-container">
+                <img src="../asset/hukum2newton.png" alt="Rumus Hukum II Newton">
+            </div>
+
+            <p class="lab-text">Keterangan:</p>
+            <p class="lab-text">F = Gaya (N)</p>
+            <p class="lab-text">m = Massa benda (kg)</p>
+            <p class="lab-text">α = Percepatan benda (m/s²)</p>
+            <br>
+
+            <h2 class="lab-title">Contoh Penerapan</h2>
+            <p class="lab-subtitle">Mendorong benda: Ketika kita mendorong benda, gaya yang kita berikan kepada benda untuk mendorongnya sangat mempengaruhi percepatan geraknya. Semakin besar gaya, maka semakin besar percepatan geraknya.</p>
+            <div class="lab-apply-image-container">
+                <img src="../asset/hukum2newton_mendorong.png" alt="Contoh Penerapan Hukum II Newton" width="50%">
+            </div>
+
+            <h2 class="lab-title">Lab Hukum Newton</h2>
+            <p class="lab-subtitle">Simulasikan gerak objek di bawah pengaruh gaya dorong dan gaya gesek.</p>
+
+            <div class="main-grid">
+                <!-- Kolom Kiri: Kontrol dan Hasil -->
+                <div>
+                    <section id="controls" class="card">
+                        <h2>Parameter Simulasi</h2>
+                        
+                        <div class="input-group">
+                            <label for="mass">Massa Objek (m):</label>
+                            <input type="range" id="mass" min="1" max="100" value="1" step="1">
+                            <span id="massValue" class="value-display">1 kg</span>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="appliedForce">Gaya Dorong (F):</label>
+                            <input type="range" id="appliedForce" min="0" max="200" value="1" step="1">
+                            <span id="appliedForceValue" class="value-display">1 N</span>
+                        </div>
+
+                         <div class="input-group">
+                            <label for="frictionCoeff">Koefisien Gesek (mu):</label>
+                            <input type="range" id="frictionCoeff" min="0" max="100" value="0" step="1">
+                            <span id="frictionCoeffValue" class="value-display">0</span>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button id="startButton">Mulai Simulasi</button>
+                        </div>
+                    </section>
+
+                    <section id="results" class="card">
+                        <h2>Analisis Real-Time</h2>
+                        
+                        <!-- Hasil Teoritis/Konstan -->
+                        <p>Gaya Gesek (F_gesek): <span id="frictionForce_output">0.00</span> N</p>
+                        <p>Gaya Netto (F_net): <span id="netForce_output">0.00</span> N</p>
+                        <p>Percepatan (a): <span id="acceleration_output">0.00</span> m/s²</p>
+                        
+                        <!-- Output Real-time -->
+                        <hr>
+                        <p>Waktu Saat Ini (t): <span id="time_output">0.00</span> s</p>
+                        <p>Kecepatan (v): <span id="velocity_output">0.00</span> m/s</p>
+                        <p>Posisi (x): <span id="position_output">0.00</span> m</p>
+                    </section>
+                </div>
+
+                <!-- Kolom Kanan: Visualisasi -->
+                <section id="visualization" class="card">
+                    <h2>Visualisasi Gerak</h2>
+                    <canvas id="newtonCanvas" width="800" height="450"></canvas>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>G = 9.8 m/s² (Konstanta Gravitasi)</p>
+    </footer>
+
+    <script src="../js/newton_script.js"></script>
+</body>
+</html>

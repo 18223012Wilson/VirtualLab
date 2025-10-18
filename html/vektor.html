@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Lab: Resultan Vektor</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Virtual Lab: Fisika</h1>
+            <nav>
+                <!-- Tautan menuju beranda -->
+                <a href="home.html"><button id="nav-home" class="active">Beranda</button></a>
+                <!-- Tautan menuju Quiz -->
+                <a href="quiz.html"><button id="nav-quiz">Quiz</button></a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Tampilan Lab Vektor -->
+        <section id="vektor-lab-view" class="view-container lab-layout">
+            <h2 class="lab-title">Resultan Vektor</h2>
+            <p class="lab-subtitle">Dalam ilmu fisika, vektor merupakan besaran yang memiliki nilai dan arah. Dalam konteks ini, vektor tidak hanya mencerminkan nilai besaran, tetapi juga mengindikasikan ke arah mana besaran tersebut bergerak. Contohnya adalah pada konsep gaya, di mana vektor gaya tidak sekadar mencerminkan besar gaya yang bekerja, melainkan juga menunjukkan arah gaya tersebut bekerja.</p>
+            <p class="lab-subtitle">Besaran vektor adalah besaran yang memiliki dua karakteristik utama, yaitu magnitude (nilai atau besarnya) dan arah. Beberapa contoh besaran vektor mencakup perpindahan, kecepatan, percepatan, momentum, dan gaya. Untuk menyatakan besaran vektor dengan jelas, perlu mencantumkan nilai besaran (dalam bentuk angka) sekaligus menentukan arah yang terkait.</p>
+            <p class="lab-subtitle">Resultan vektor adalah vektor tunggal yang merupakan hasil dari penjumlahan atau penggabungan dari dua atau lebih vektor. Resultan ini mencerminkan total efek atau dampak dari vektor-vektor tersebut, baik dalam hal magnitude (besarnya) maupun arahnya.</p>
+            <p class="lab-subtitle">Dalam konteks fisika, resultan vektor digunakan untuk menggambarkan hasil akhir dari berbagai gaya atau vektor yang bekerja pada suatu objek, membantu dalam menganalisis pergerakan atau keseimbangan benda dalam suatu sistem.</p>
+
+            <p class="lab-text">Berikut ini rumus yang berkaitan dengan vektor:</p>
+            <ul>
+                <li class="lab-list">Besar resultan</li>
+                <div class="lab-image-container">
+                    <img src="../asset/vektor1.png" alt="Komponen Vektor" width="60%">
+                </div>
+                <li class="lab-list">Penjulahan/Pengurangan vektor</li>
+                <div class="lab-image-container">
+                    <img src="../asset/vektor2.png" alt="Komponen Vektor" width="60%">
+                </div>
+            </ul>
+
+            <h2 class="lab-title">Contoh Penerapan</h2>
+            <p class="lab-subtitle">Perahu menyeberangi sungai: Kecepatan perahu melintasi sungai memanfaatkan penjumlahan vektor kecepatan perahu dan kecepatan arus air sungai, baik searah maupun berlawanan.</p>
+            <div class="lab-apply-image-container">
+                <img src="../asset/vektor_penerapan.png" alt="Contoh Penerapan Hukum II Newton" width="50%">
+            </div>
+
+            <h2 class="lab-title">Lab Resultan Vektor</h2>
+            <p class="lab-subtitle">Simulasikan penjumlahan vektor dengan menambahkan vektor menggunakan koordinat (x,y). Resultan akan ditampilkan sebagai panah hijau ketika terdapat minimal 2 vektor.</p>
+
+            <div class="main-grid">
+                <!-- Kolom Kiri: Kontrol dan Hasil -->
+                <div>
+                    <section id="controls" class="card">
+                        <h2>Tambah Vektor</h2>
+                        
+                        <div class="input-group">
+                            <label for="xCoord">Koordinat X (px):</label>
+                            <input type="number" id="xCoord" step="1" value="0">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="yCoord">Koordinat Y (px):</label>
+                            <input type="number" id="yCoord" step="1" value="0">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="color">Warna vektor:</label>
+                            <input id="color" type="color" value="#FFFFFF">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>
+                                <input id="showGrid" type="checkbox" checked> 
+                                Tampilkan grid & origin
+                            </label>
+                        </div>
+
+                        <div class="button-group">
+                            <button id="addVectorBtn" class="btn">Tambah Vektor</button>
+                            <button id="clearBtn" class="btn" style="background:linear-gradient(135deg,#F44336,#d32f2f);">Hapus Semua</button>
+                        </div>
+                    </section>
+
+                    <section id="results" class="card">
+                        <h2>Hasil Resultan</h2>
+                        <p>Komponen X: <span id="resX">0.00</span> px</p>
+                        <p>Komponen Y: <span id="resY">0.00</span> px</p>
+                        <p>Magnitude : <span id="resMag">0.00</span> px</p>
+                        <p>Sudut: <span id="resAngle">0.00</span>°</p>
+                        
+                        <hr>
+                        <h3>Daftar Vektor</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:8px;">
+                            Drag ujung panah untuk mengubah vektor
+                        </p>
+                        <div style="max-height: 200px; overflow-y: auto; margin-top:8px;" id="vectorsList">
+                            <!-- Vektor akan muncul di sini -->
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Kolom Kanan: Visualisasi -->
+                <section id="visualization" class="card">
+                    <h2>Visualisasi Vektor</h2>
+                    <canvas id="vectorCanvas" width="800" height="450"></canvas>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Virtual Lab: Resultan Vektor</p>
+    </footer>
+
+    <script src="../js/vektor_script.js"></script>
+</body>
+</html>

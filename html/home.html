@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Lab: Fisika (Beranda)</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Gaya tambahan khusus untuk homepage, jika diperlukan */
+        .lab-layout {
+            display: none !important; /* Pastikan tidak ada tampilan Lab di index */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Virtual Lab: Fisika</h1>
+            <nav>
+                <!-- Tautan menuju beranda -->
+                <a href="home.html"><button id="nav-home" class="active">Beranda</button></a>
+                <!-- Tautan menuju Quiz -->
+                <a href="quiz.html"><button id="nav-quiz">Quiz</button></a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Tampilan 1: Beranda (Homepage) -->
+        <section id="homepage-view" class="view-container">
+            <h2>Pilih Eksperimen Virtual</h2>
+            <p>Selamat datang di Lab Virtual. Klik salah satu kartu di bawah untuk memulai simulasi.</p>
+
+            <div class="grid-container">
+
+                <!-- Kartu 1: Gerak Parabola -->
+                <!-- Diarahkan ke file Parabola.html -->
+                <a href="parabola.html" class="lab-card-link">
+                    <div id="card-parabola" class="lab-card">
+                        <div class="card-icon-wrapper">
+                            <!-- Ikon Placeholder Gerak Parabola  -->
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 19H19" stroke="#3f51b5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 15C5.5 8 13.5 4 21 6" stroke="#ff5722" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <h3>Gerak Parabola</h3>
+                        <p>Simulasi lintasan proyektil (peluru) yang dipengaruhi oleh gravitasi.</p>
+                    </div>
+                </a>
+
+                <!-- Kartu 2: Hukum Newton -->
+                <!-- Diarahkan ke file newton.html -->
+                <a href="newton.html" class="lab-card-link">
+                    <div id="card-newton" class="lab-card">
+                        <div class="card-icon-wrapper">
+                             <!-- Ikon Placeholder Hukum Newton [Image of physics force] -->
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM12 17V7M8 12h8" stroke="#3f51b5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <h3>Hukum Newton II</h3>
+                        <p>Eksplorasi hubungan antara gaya, massa, dan percepatan.</p>
+                    </div>
+                </a>
+
+                <!-- Kartu 3: Vektor -->
+                <!-- Diarahkan ke file vektor.html -->
+                <a href="vektor.html" class="lab-card-link">
+                    <div id="card-newton" class="lab-card">
+                        <div class="card-icon-wrapper">
+                             <!-- Ikon Placeholder Hukum Newton [Image of physics force] -->
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM12 17V7M8 12h8" stroke="#3f51b5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <h3>Resultan Vektor</h3>
+                        <p>Analisis penjumlahan beberapa vektor untuk menemukan vektor pengganti yang setara.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Lab Virtual Fisika &copy; 2024</p>
+    </footer>
+</body>
+</html>

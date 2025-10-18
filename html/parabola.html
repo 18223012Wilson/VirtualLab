@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Lab: Gerak Parabola</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Virtual Lab: Fisika</h1>
+            <nav>
+                <!-- Tautan menuju beranda -->
+                <a href="home.html"><button id="nav-home" class="active">Beranda</button></a>
+                <!-- Tautan menuju Quiz -->
+                <a href="quiz.html"><button id="nav-quiz">Quiz</button></a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Tampilan Lab Gerak Parabola -->
+        <section id="parabola-lab-view" class="view-container lab-layout">
+            <h2 class="lab-title">Gerak Parabola</h2>
+            <p class="lab-subtitle">Gerak parabola adalah gerak yang terdiri dari dua komponen kecepatan (kecepatan sumbu-x dan sumbu-y) dan seluruh lintasannya dipengaruhi oleh gaya gravitasi.</p>
+            <p class="lab-subtitle">Jika diuraikan, gerak parabola merupakan perpaduan antara Gerak Lurus Beraturan (GLB) di arah sumbu-x dan Gerak Lurus Berubah Beraturan (GLBB) di arah sumbu-y. Artinya, kecepatan benda pada sumbu-x akan selalu tetap, baik besar maupun arahnya. Sementara itu, kecepatan benda pada sumbu-y akan mengalami GLBB diperlambat akibat pengaruh percepatan gravitasi. Nah, pengaruh gravitasi inilah yang menyebabkan gerak bendanya melengkung sehingga disebut gerak parabola.</p>
+            <p class="lab-text">Berikut ini adalah ciri-ciri gerak parabola</p>
+            <ul>
+                <li class="lab-list">Lintasan berbentuk lengkung (parabola)</li>
+                <li class="lab-list">Kecepatan awal (v0) dan sudut elevasi (θ) menentukan bentuk lintasan</li>
+                <li class="lab-list">Dipengaruhi oleh gaya gravitasi (konstanta G = 9.8 m/s²)</li>
+                <li class="lab-list">Memiliki jangkauan maksimum, tinggi maksimum, dan waktu total yang dapat dihitung secara teoritis</li>
+            </ul>
+            <p class="lab-subtitle">Berikut adalah rumus-rumus yang berkaitan dengan Gerak Parabola:</p>
+            <ul>
+                <li class="lab-list">Rumus dasar gerak parabola</li>
+                <div class="lab-image-container">
+                    <img src="../asset/parabola1.png" alt="Rumus Gerak Parabola" width="50%">
+                </div>
+                <li class="lab-list">Rumus ketinggian maksimum</li>
+                <div class="lab-image-container">
+                    <img src="../asset/parabola2.png" alt="Rumus Ketinggian Maksimum" width="40%">
+                </div>
+                <li class="lab-list">Rumus jangkauan maksimum</li>
+                <div class="lab-image-container">
+                    <img src="../asset/parabola3.png" alt="Rumus Jangkauan Maksimum" width="80%">
+                </div>
+                <li class="lab-list">Rumus waktu yang dibutuhkan</li>
+                <div class="lab-image-container">
+                    <img src="../asset/parabola4.png" alt="Rumus Waktu" width="40%">
+                </div>
+            </ul>
+
+            <h2 class="lab-title">Contoh Penerapan</h2>
+            <p class="lab-subtitle">Menendang sepak bola: ketika kita menendang sepak bola ke gawang, maka bola akan melambung membentuk lintasan parabola sebelum jatuh ke permukaan jika ditendang dengan sudut elevasi tertentu.</p>
+            <div class="lab-apply-image-container">
+                <img src="../asset/parabola_menendang.png" alt="Contoh Penerapan Hukum II Newton" width="50%">
+            </div>
+
+
+            <h2 class="lab-title">Lab Gerak Parabola</h2>
+            <p class="lab-subtitle">Simulasikan lintasan proyektil (peluru) yang dipengaruhi oleh gravitasi dengan mengubah kecepatan awal ($v_0$) dan sudut elevasi ($\theta$).</p>
+
+            <div class="main-grid">
+                <!-- Kolom Kiri: Kontrol dan Hasil -->
+                <div>
+                    <section id="controls" class="card">
+                        <h2>Parameter Awal</h2>
+                        
+                        <div class="input-group">
+                            <label for="velocity">Kecepatan Awal (v0):</label>
+                            <!-- Nilai awal diatur ke 10 (minimum) -->
+                            <input type="range" id="velocity" min="10" max="100" value="10" step="1"> 
+                            <span id="velocityValue" class="value-display">10 m/s</span>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="angle">Sudut Elevasi (θ):</label>
+                            <!-- Nilai awal diatur ke 15 (minimum praktis) -->
+                            <input type="range" id="angle" min="15" max="90" value="15" step="1">
+                            <span id="angleValue" class="value-display">15 &deg;</span>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button id="startButton" style="background-color: var(--success-color);">Mulai Simulasi</button>
+                        </div>
+                    </section>
+                
+                    <section id="results" class="card">
+                        <h2>Hasil Perhitungan Teoritis</h2>
+                        <p>Jangkauan Maksimum (X_max): <span id="xmax_output">0.00</span> m</p>
+                        <p>Tinggi Maksimum (Y_max): <span id="ymax_output">0.00</span> m</p>
+                        <p>Waktu Total (T_total): <span id="ttotal_output">0.00</span> s</p>
+                    </section>
+                </div>
+
+                <!-- Kolom Kanan: Visualisasi -->
+                <section id="visualization" class="card">
+                    <h2>Visualisasi Gerak</h2>
+                    <canvas id="parabolaCanvas" width="800" height="450"></canvas>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>G = 9.8 m/s² (Konstanta Gravitasi)</p>
+    </footer>
+
+    <script src="../js/parabola_script.js"></script>
+</body>
+</html>
