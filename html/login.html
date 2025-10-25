@@ -65,7 +65,7 @@
                 
                 if (result.success) {
                     console.log('Login successful, redirecting...');
-                    window.location.href = 'home.html';
+                    window.location.href = 'index.html';
                 } else {
                     errorMessage.textContent = result.message;
                     errorMessage.style.display = 'block';
@@ -82,7 +82,7 @@
         });
 
         if (VirtualLabAuth.isAuthenticated()) {
-            window.location.href = 'home.html';
+            window.location.href = 'index.html';
         }
     </script>
 </body>
