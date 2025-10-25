@@ -314,7 +314,7 @@
 
     function requireAuth() {
         if (!isAuthenticated()) {
-            window.location.href = 'html/login.html';
+            window.location.href = 'login.html';
             return false;
         }
         return true;
@@ -322,7 +322,7 @@
 
     function redirectIfAuthenticated() {
         if (isAuthenticated()) {
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
             return true;
         }
         return false;
