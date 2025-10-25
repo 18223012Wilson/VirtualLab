@@ -343,8 +343,16 @@
         </div>
     </main>
 
+    <!-- Firebase SDK - TAMBAHKAN INI SEBELUM auth.js -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <script src="../js/auth.js"></script>
     <script>
         (function(){
+            VirtualLabAuth.redirectIfAuthenticated();
+
             const form = document.getElementById('registerForm');
             const firstName = document.getElementById('firstName');
             const lastName = document.getElementById('lastName');
@@ -417,7 +425,7 @@
                 success.style.display = 'none';
             }
 
-            form.addEventListener('submit', (e) => {
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 clearMessages();
                 
@@ -470,18 +478,40 @@
                     return;
                 }
                 
-                // Simulate registration
+                // Register menggunakan auth.js (ASYNC)
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'Mendaftar...';
                 
-                setTimeout(() => {
-                    showSuccess('✅ Pendaftaran berhasil! Anda akan dialihkan ke halaman login...');
+                try {
+                    const fullName = `${firstName.value.trim()} ${lastName.value.trim()}`;
+                    const result = await VirtualLabAuth.register(
+                        email.value.trim(),
+                        username.value.trim(),
+                        pwd.value,
+                        fullName
+                    );
                     
-                    setTimeout(() => {
-                        window.location.href = 'login.html';
-                    }, 2000);
-                }, 1500);
+                    if (result.success) {
+                        showSuccess('✅ ' + result.message + ' Mengalihkan ke login...');
+                        
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 1500);
+                    } else {
+                        showError('❌ ' + result.message);
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Daftar Sekarang';
+                    }
+                } catch (error) {
+                    console.error('Register error:', error);
+                    showError('❌ Terjadi kesalahan: ' + error.message);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Daftar Sekarang';
+                }
             });
+
+            // Log Firebase status
+            console.log('Firebase enabled:', VirtualLabAuth.getFirebaseAuth() ? 'Yes' : 'No (using localStorage)');
         })();
     </script>
 </body>

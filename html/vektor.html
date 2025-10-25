@@ -11,10 +11,10 @@
         <div class="header-content">
             <h1>Virtual Lab: Fisika</h1>
             <nav>
-                <!-- Tautan menuju beranda -->
-                <a href="home.html"><button id="nav-home" class="active">Beranda</button></a>
-                <!-- Tautan menuju Quiz -->
+                <a href="home.html"><button id="nav-home">Beranda</button></a>
                 <a href="quiz.html"><button id="nav-quiz">Quiz</button></a>
+                <a href="profile.html"><button id="nav-profile">Profil</button></a>
+                <button id="logoutBtn">Logout</button>
             </nav>
         </div>
     </header>
@@ -25,7 +25,7 @@
             <h2 class="lab-title">Resultan Vektor</h2>
             <p class="lab-subtitle">Dalam ilmu fisika, vektor merupakan besaran yang memiliki nilai dan arah. Dalam konteks ini, vektor tidak hanya mencerminkan nilai besaran, tetapi juga mengindikasikan ke arah mana besaran tersebut bergerak. Contohnya adalah pada konsep gaya, di mana vektor gaya tidak sekadar mencerminkan besar gaya yang bekerja, melainkan juga menunjukkan arah gaya tersebut bekerja.</p>
             <p class="lab-subtitle">Besaran vektor adalah besaran yang memiliki dua karakteristik utama, yaitu magnitude (nilai atau besarnya) dan arah. Beberapa contoh besaran vektor mencakup perpindahan, kecepatan, percepatan, momentum, dan gaya. Untuk menyatakan besaran vektor dengan jelas, perlu mencantumkan nilai besaran (dalam bentuk angka) sekaligus menentukan arah yang terkait.</p>
-            <p class="lab-subtitle">Resultan vektor adalah vektor tunggal yang merupakan hasil dari penjumlahan atau penggabungan dari dua atau lebih vektor. Resultan ini mencerminkan total efek atau dampak dari vektor-vektor tersebut, baik dalam hal magnitude (besarnya) maupun arahnya.</p>
+            <p class="lab-subtitle">Resultan vektor adalah vektor tunggal yang merupakan hasil dari penjumlahan atau penggabungan dari two atau lebih vektor. Resultan ini mencerminkan total efek atau dampak dari vektor-vektor tersebut, baik dalam hal magnitude (besarnya) maupun arahnya.</p>
             <p class="lab-subtitle">Dalam konteks fisika, resultan vektor digunakan untuk menggambarkan hasil akhir dari berbagai gaya atau vektor yang bekerja pada suatu objek, membantu dalam menganalisis pergerakan atau keseimbangan benda dalam suatu sistem.</p>
 
             <p class="lab-text">Berikut ini rumus yang berkaitan dengan vektor:</p>
@@ -115,5 +115,39 @@
     </footer>
 
     <script src="../js/vektor_script.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        // Proteksi halaman - redirect ke login jika belum login
+        VirtualLabAuth.requireAuth();
+        
+        // Logout functionality
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                const confirmed = confirm('Apakah Anda yakin ingin logout?');
+                if (!confirmed) return;
+                
+                logoutBtn.disabled = true;
+                logoutBtn.textContent = 'Logging out...';
+                
+                try {
+                    const result = await VirtualLabAuth.logout();
+                    if (result.success) {
+                        window.location.href = 'login.html';
+                    }
+                } catch (error) {
+                    console.error('Logout error:', error);
+                    alert('Gagal logout. Silakan coba lagi.');
+                    logoutBtn.disabled = false;
+                    logoutBtn.textContent = 'Logout';
+                }
+            });
+        }
+    </script>
 </body>
 </html>

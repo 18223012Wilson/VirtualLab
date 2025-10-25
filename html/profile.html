@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil — Virtual Lab</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--spacing-xl);
+        }
+        
+        .profile-card {
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #06b6d4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .profile-info h2 {
+            margin: 0 0 var(--spacing-xs) 0;
+            color: var(--text-primary);
+        }
+        
+        .profile-info p {
+            margin: 0;
+            color: var(--text-muted);
+        }
+        
+        .info-group {
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .info-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .info-value {
+            font-size: 1rem;
+            color: var(--text-primary);
+            padding: var(--spacing-sm);
+            background-color: var(--bg-input);
+            border-radius: var(--border-radius-sm);
+        }
+        
+        .actions {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #F44336, #d32f2f);
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #d32f2f, #b71c1c);
+        }
+
+        .loading {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Virtual Lab: Fisika</h1>
+            <nav>
+                <a href="home.html"><button id="nav-home">Beranda</button></a>
+                <a href="quiz.html"><button id="nav-quiz">Quiz</button></a>
+                <a href="profile.html"><button id="nav-profile" class="active">Profil</button></a>
+                <button id="logoutBtn">Logout</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="profile-container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="avatar" id="userAvatar">...</div>
+                <div class="profile-info">
+                    <h2 id="userName" class="loading">Memuat...</h2>
+                    <p id="userEmail" class="loading">Memuat...</p>
+                </div>
+            </div>
+
+            <div class="info-group">
+                <div class="info-label">Username</div>
+                <div class="info-value" id="displayUsername">-</div>
+            </div>
+
+            <div class="info-group">
+                <div class="info-label">Email</div>
+                <div class="info-value" id="displayEmail">-</div>
+            </div>
+
+            <div class="info-group">
+                <div class="info-label">Nama Lengkap</div>
+                <div class="info-value" id="displayFullName">-</div>
+            </div>
+
+            <div class="info-group">
+                <div class="info-label">Member Sejak</div>
+                <div class="info-value" id="memberSince">-</div>
+            </div>
+
+            <div class="info-group">
+                <div class="info-label">Waktu Login Terakhir</div>
+                <div class="info-value" id="lastLogin">-</div>
+            </div>
+
+            <div class="actions">
+                <button class="btn" id="backBtn">
+                    Kembali ke Beranda
+                </button>
+                <a href="quiz_history.html"><button class="btn">
+                    📊 Lihat Riwayat Quiz
+                </button></a>
+                <button class="btn" id="changePasswordBtn">
+                    🔐 Ubah Password
+                </button>
+                <button class="btn btn-danger" id="logoutBtnCard">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Virtual Lab: Fisika</p>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <script src="../js/auth.js"></script>
+    <script src="../js/user_data.js"></script>
+    <script>
+        (async function(){
+            console.log('=== Profile Page Loading ===');
+
+            // Proteksi halaman
+            if (!VirtualLabAuth.isAuthenticated()) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Fungsi helper untuk update element
+            function updateElement(id, value) {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.textContent = value;
+                    el.classList.remove('loading');
+                    console.log(`✅ Updated ${id}:`, value);
+                } else {
+                    console.warn(`⚠️ Element not found: ${id}`);
+                }
+            }
+
+            try {
+                // STEP 1: Ambil data dari session (cepat)
+                const currentUser = VirtualLabAuth.getCurrentUser();
+                console.log('Current user from session:', currentUser);
+
+                if (currentUser) {
+                    // Update dari session dulu
+                    const firstLetter = (currentUser.fullName || currentUser.username || 'U')[0].toUpperCase();
+                    updateElement('userAvatar', firstLetter);
+                    updateElement('userName', currentUser.fullName || currentUser.username);
+                    updateElement('userEmail', currentUser.email);
+                    updateElement('displayUsername', currentUser.username || '-');
+                    updateElement('displayEmail', currentUser.email || '-');
+                    updateElement('displayFullName', currentUser.fullName || '-');
+                    
+                    if (currentUser.loginTime) {
+                        const loginDate = new Date(currentUser.loginTime);
+                        updateElement('lastLogin', loginDate.toLocaleString('id-ID', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        }));
+                    }
+                }
+
+                // STEP 2: Tunggu Firebase siap
+                console.log('Waiting for Firebase...');
+                if (window.UserData && window.UserData.waitForFirebase) {
+                    await UserData.waitForFirebase();
+                }
+                console.log('Firebase ready!');
+
+                // STEP 3: Ambil data lengkap dari Firestore
+                const auth = VirtualLabAuth.getFirebaseAuth();
+                const db = VirtualLabAuth.getFirebaseDb();
+                
+                if (!db || !auth || !auth.currentUser) {
+                    console.error('Firebase not available');
+                    return;
+                }
+
+                console.log('Loading data from Firestore for uid:', auth.currentUser.uid);
+                
+                // Get user document dari Firestore
+                const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
+                
+                if (userDoc.exists) {
+                    const userData = userDoc.data();
+                    console.log('User data from Firestore:', userData);
+                    
+                    // Update data yang mungkin lebih lengkap dari Firestore
+                    if (userData.fullName) {
+                        updateElement('userName', userData.fullName);
+                        updateElement('displayFullName', userData.fullName);
+                        
+                        const firstLetter = userData.fullName[0].toUpperCase();
+                        updateElement('userAvatar', firstLetter);
+                    }
+                    
+                    if (userData.email) {
+                        updateElement('userEmail', userData.email);
+                        updateElement('displayEmail', userData.email);
+                    }
+                    
+                    if (userData.username) {
+                        updateElement('displayUsername', userData.username);
+                    }
+                    
+                    // Update member since
+                    if (userData.createdAt) {
+                        const createdDate = new Date(userData.createdAt);
+                        updateElement('memberSince', createdDate.toLocaleDateString('id-ID', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric'
+                        }));
+                    }
+                } else {
+                    console.warn('User document not found in Firestore');
+                }
+
+                console.log('✅ Profile data loaded successfully');
+
+            } catch (error) {
+                console.error('❌ Error loading profile data:', error);
+                console.error('Error details:', error.message);
+                console.error('Error stack:', error.stack);
+                
+                // Tampilkan error ke user
+                updateElement('userName', 'Error memuat data');
+                updateElement('userEmail', 'Silakan refresh halaman');
+            }
+
+            // Event Listeners
+            async function handleLogout() {
+                if (!confirm('Apakah Anda yakin ingin logout?')) return;
+
+                try {
+                    await VirtualLabAuth.logout();
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    console.error('Logout error:', error);
+                    alert('Gagal logout. Silakan coba lagi.');
+                }
+            }
+
+            document.getElementById('logoutBtn')?.addEventListener('click', handleLogout);
+            document.getElementById('logoutBtnCard')?.addEventListener('click', handleLogout);
+            
+            document.getElementById('backBtn')?.addEventListener('click', () => {
+                window.location.href = 'home.html';
+            });
+
+            document.getElementById('changePasswordBtn')?.addEventListener('click', async () => {
+                const newPassword = prompt('Masukkan password baru (minimal 6 karakter):');
+                if (!newPassword) return;
+                
+                if (newPassword.length < 6) {
+                    alert('Password minimal 6 karakter');
+                    return;
+                }
+
+                try {
+                    const auth = VirtualLabAuth.getFirebaseAuth();
+                    if (auth?.currentUser) {
+                        await auth.currentUser.updatePassword(newPassword);
+                        alert('Password berhasil diubah!');
+                    } else {
+                        alert('Gagal mengubah password. Silakan login ulang.');
+                    }
+                } catch (error) {
+                    console.error('Change password error:', error);
+                    
+                    if (error.code === 'auth/requires-recent-login') {
+                        alert('Sesi Anda sudah kadaluarsa. Silakan login ulang untuk mengubah password.');
+                        window.location.href = 'login.html';
+                    } else {
+                        alert('Gagal mengubah password: ' + error.message);
+                    }
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

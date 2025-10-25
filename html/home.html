@@ -17,10 +17,10 @@
         <div class="header-content">
             <h1>Virtual Lab: Fisika</h1>
             <nav>
-                <!-- Tautan menuju beranda -->
-                <a href="home.html"><button id="nav-home" class="active">Beranda</button></a>
-                <!-- Tautan menuju Quiz -->
+                <button id="nav-home" class="active">Beranda</button>
                 <a href="quiz.html"><button id="nav-quiz">Quiz</button></a>
+                <a href="profile.html"><button id="nav-profile">Profil</button></a>
+                <button id="logoutBtn">Logout</button>
             </nav>
         </div>
     </header>
@@ -78,5 +78,43 @@
     <footer>
         <p>Lab Virtual Fisika &copy; 2024</p>
     </footer>
+
+    <!-- Firebase scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        // Proteksi halaman - redirect ke login jika belum login
+        VirtualLabAuth.requireAuth();
+        
+        // Ambil data user yang login
+        const currentUser = VirtualLabAuth.getCurrentUser();
+        console.log('Welcome:', currentUser?.fullName);
+        
+        // Logout functionality
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                const confirmed = confirm('Apakah Anda yakin ingin logout?');
+                if (!confirmed) return;
+                
+                logoutBtn.disabled = true;
+                logoutBtn.textContent = 'Logging out...';
+                
+                try {
+                    const result = await VirtualLabAuth.logout();
+                    if (result.success) {
+                        window.location.href = 'login.html';
+                    }
+                } catch (error) {
+                    console.error('Logout error:', error);
+                    alert('Gagal logout. Silakan coba lagi.');
+                    logoutBtn.disabled = false;
+                    logoutBtn.textContent = 'Logout';
+                }
+            });
+        }
+    </script>
 </body>
 </html>

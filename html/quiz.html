@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz — Virtual Lab</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .quiz-selection-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-xl);
+        }
+
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+        }
+
+        .quiz-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .quiz-card h3 {
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .quiz-card p {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .quiz-card .quiz-stats {
+            display: flex;
+            gap: var(--spacing-md);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .quiz-container, .result-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--spacing-xl);
+        }
+
+        .quiz-header {
+            background: var(--bg-card);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .quiz-progress {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-input);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: var(--spacing-md);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: var(--bg-card);
+            padding: var(--spacing-xl);
+            border-radius: var(--border-radius-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.6;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .option {
+            background: var(--bg-input);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius-sm);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .option:hover {
+            border-color: var(--primary-color);
+            background: rgba(11, 110, 253, 0.05);
+        }
+
+        .option.selected {
+            border-color: var(--primary-color);
+            background: rgba(11, 110, 253, 0.1);
+        }
+
+        .option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-lg);
+        }
+
+        .result-card {
+            background: var(--bg-card);
+            padding: var(--spacing-xl);
+            border-radius: var(--border-radius-lg);
+            text-align: center;
+        }
+
+        .result-score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .result-percentage {
+            font-size: 1.5rem;
+            color: var(--success-color);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .review-item {
+            background: var(--bg-card);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius-sm);
+            margin-bottom: var(--spacing-md);
+            border-left: 4px solid var(--border-color);
+        }
+
+        .review-item .review-answer.correct {
+            color: var(--success-color);
+        }
+
+        .review-item .review-answer.wrong {
+            color: var(--danger-color);
+        }
+
+        .review-item .review-correct {
+            color: var(--primary-color);
+            margin-top: var(--spacing-sm);
+        }
+
+        .review-item .review-explanation {
+            color: var(--text-secondary);
+            margin-top: var(--spacing-sm);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Virtual Lab: Fisika</h1>
+            <nav>
+                <a href="home.html"><button id="nav-home">Beranda</button></a>
+                <a href="quiz.html"><button id="nav-quiz" class="active">Quiz</button></a>
+                <a href="profile.html"><button id="nav-profile">Profil</button></a>
+                <button id="logoutBtn">Logout</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Pemilihan Quiz -->
+        <section id="quiz-selection" class="quiz-selection-container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-lg);">
+                <div>
+                    <h2 class="lab-title">Pilih Quiz</h2>
+                    <p class="lab-subtitle">Uji pemahaman Anda tentang berbagai topik fisika</p>
+                </div>
+                <a href="quiz_history.html"><button class="btn">
+                    📊 Lihat Riwayat
+                </button></a>
+            </div>
+
+            <div class="quiz-grid">
+                <div class="quiz-card" data-quiz="gerak-parabola">
+                    <h3>Quiz Gerak Parabola</h3>
+                    <p>Uji pemahaman Anda tentang gerak parabola, jangkauan maksimum, dan tinggi maksimum.</p>
+                    <div class="quiz-stats">
+                        <span>📝 5 Soal</span>
+                        <span>⏱️ ~5 menit</span>
+                    </div>
+                </div>
+
+                <div class="quiz-card" data-quiz="hukum-newton">
+                    <h3>Quiz Hukum Newton</h3>
+                    <p>Uji pemahaman Anda tentang Hukum Newton I, II, dan III serta penerapannya.</p>
+                    <div class="quiz-stats">
+                        <span>📝 5 Soal</span>
+                        <span>⏱️ ~5 menit</span>
+                    </div>
+                </div>
+
+                <div class="quiz-card" data-quiz="vektor">
+                    <h3>Quiz Vektor</h3>
+                    <p>Uji pemahaman Anda tentang vektor, penjumlahan vektor, dan magnitude vektor.</p>
+                    <div class="quiz-stats">
+                        <span>📝 5 Soal</span>
+                        <span>⏱️ ~5 menit</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Container -->
+        <section id="quiz-container" class="quiz-container" style="display: none;">
+            <div class="quiz-header">
+                <h2 id="quiz-title">Quiz</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: var(--spacing-md);">
+                    <span id="question-number">Soal 1 dari 5</span>
+                    <span id="timer-display">00:00</span>
+                </div>
+                <div class="quiz-progress">
+                    <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <p class="question-text" id="question-text"></p>
+                <div id="options-container" class="options-container"></div>
+            </div>
+
+            <div class="quiz-navigation">
+                <button class="btn" id="prev-btn">← Sebelumnya</button>
+                <div style="display: flex; gap: var(--spacing-md);">
+                    <button class="btn" id="next-btn">Selanjutnya →</button>
+                    <button class="btn" id="submit-btn" style="display: none; background: linear-gradient(135deg, var(--success-color), #28a745);">Submit Quiz</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Result Container -->
+        <section id="result-container" class="result-container" style="display: none;">
+            <div class="result-card">
+                <h2>Hasil Quiz</h2>
+                <div class="result-score" id="final-score">0 / 5</div>
+                <div class="result-percentage" id="final-percentage">0%</div>
+                <p id="final-message" style="font-size: 1.1rem; margin-bottom: var(--spacing-lg);"></p>
+
+                <div style="display: flex; gap: var(--spacing-md); justify-content: center; margin-top: var(--spacing-lg);">
+                    <button class="btn" id="retake-btn">Ulangi Quiz</button>
+                    <button class="btn" id="back-to-selection-btn">Pilih Quiz Lain</button>
+                </div>
+            </div>
+
+            <div style="margin-top: var(--spacing-xl);">
+                <h3>Review Jawaban</h3>
+                <div id="review-answers"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Virtual Lab: Fisika</p>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/user_data.js"></script>
+    <script src="../js/quiz_script.js"></script>
+    <script>
+        // Proteksi halaman
+        VirtualLabAuth.requireAuth();
+        
+        // Debug: Cek apakah UserData tersedia
+        console.log('UserData available:', typeof UserData !== 'undefined');
+        if (typeof UserData !== 'undefined') {
+            console.log('UserData methods:', Object.keys(UserData));
+        }
+        
+        // Logout functionality
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                const confirmed = confirm('Apakah Anda yakin ingin logout?');
+                if (!confirmed) return;
+                
+                logoutBtn.disabled = true;
+                logoutBtn.textContent = 'Logging out...';
+                
+                try {
+                    const result = await VirtualLabAuth.logout();
+                    if (result.success) {
+                        window.location.href = 'login.html';
+                    }
+                } catch (error) {
+                    console.error('Logout error:', error);
+                    alert('Gagal logout. Silakan coba lagi.');
+                    logoutBtn.disabled = false;
+                    logoutBtn.textContent = 'Logout';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

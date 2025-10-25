@@ -242,49 +242,64 @@
         </div>
     </main>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Auth Script -->
+    <script src="../js/auth.js"></script>
     <script>
         (function(){
+            VirtualLabAuth.redirectIfAuthenticated();
+
             const form = document.getElementById('loginForm');
-            const idf = document.getElementById('identifier');
+            const identifier = document.getElementById('identifier');
             const pwd = document.getElementById('password');
             const err = document.getElementById('errorMsg');
             const success = document.getElementById('successMsg');
-            const toggle = document.getElementById('togglePwd');
+            const togglePwd = document.getElementById('togglePwd');
             const submitBtn = document.getElementById('submitBtn');
 
-            toggle.addEventListener('click', () => {
-                const isPwd = pwd.type === 'password';
-                pwd.type = isPwd ? 'text' : 'password';
-                toggle.textContent = isPwd ? 'Sembunyikan' : 'Tampilkan';
-            });
+            if (togglePwd) {
+                togglePwd.addEventListener('click', () => {
+                    const isPwd = pwd.type === 'password';
+                    pwd.type = isPwd ? 'text' : 'password';
+                    togglePwd.textContent = isPwd ? 'Sembunyikan' : 'Tampilkan';
+                });
+            }
 
             function showError(msg){
-                err.style.display = 'block';
-                err.textContent = msg;
-                success.style.display = 'none';
+                if (err) {
+                    err.style.display = 'block';
+                    err.textContent = msg;
+                }
+                if (success) success.style.display = 'none';
             }
             
             function showSuccess(msg){
-                success.style.display = 'block';
-                success.textContent = msg;
-                err.style.display = 'none';
+                if (success) {
+                    success.style.display = 'block';
+                    success.textContent = msg;
+                }
+                if (err) err.style.display = 'none';
             }
             
             function clearMessages(){
-                err.style.display = 'none';
-                success.style.display = 'none';
+                if (err) err.style.display = 'none';
+                if (success) success.style.display = 'none';
             }
 
-            form.addEventListener('submit', (e) => {
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 clearMessages();
                 
-                const identifier = idf.value.trim();
+                const identifierValue = identifier.value.trim();
                 const password = pwd.value;
                 
-                if (!identifier){
+                if (!identifierValue){
                     showError('Harap isi email atau username.');
-                    idf.focus();
+                    identifier.focus();
                     return;
                 }
                 
@@ -294,29 +309,34 @@
                     return;
                 }
                 
-                // Simulate login
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'Memproses...';
                 
-                setTimeout(() => {
-                    // Simpan status login ke localStorage
-                    localStorage.setItem('isLoggedIn', 'true');
-                    localStorage.setItem('username', identifier);
+                try {
+                    const result = await VirtualLabAuth.login(identifierValue, password);
                     
-                    showSuccess('✅ Login berhasil! Mengalihkan ke homepage...');
-                    
-                    setTimeout(() => {
-                        window.location.href = 'home.html';
-                    }, 1000);
-                }, 1000);
+                    if (result.success) {
+                        showSuccess('✅ ' + result.message + ' Mengalihkan...');
+                        
+                        setTimeout(() => {
+                            window.location.href = 'home.html';
+                        }, 1000);
+                    } else {
+                        showError('❌ ' + result.message);
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Masuk';
+                        pwd.value = '';
+                        pwd.focus();
+                    }
+                } catch (error) {
+                    showError('❌ Terjadi kesalahan: ' + error.message);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Masuk';
+                }
             });
 
-            // Enter key submission
-            [idf, pwd].forEach(el => {
-                el.addEventListener('keydown', (ev) => {
-                    if (ev.key === 'Enter') form.requestSubmit();
-                });
-            });
+            console.log('=== Login Page Ready ===');
+            console.log('Firebase enabled: ' + (VirtualLabAuth.getFirebaseAuth() ? 'Yes' : 'No (using localStorage)'));
         })();
     </script>
 </body>
