@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Lab: Fisika</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
@@ -12,8 +12,8 @@
             <h1>Virtual Lab: Fisika</h1>
             <nav>
                 <a href="index.html"><button id="nav-home" class="active">Beranda</button></a>
-                <a href="quiz.html"><button id="nav-quiz">Quiz</button></a>
-                <a href="profile.html"><button id="nav-profile">Profil</button></a>
+                <a href="html/quiz.html"><button id="nav-quiz">Quiz</button></a>
+                <a href="html/profile.html"><button id="nav-profile">Profil</button></a>
                 <button id="logoutBtn">Logout</button>
             </nav>
         </div>
@@ -26,21 +26,21 @@
         </div>
 
         <div class="labs-grid">
-            <div class="lab-card" onclick="window.location.href='vektor.html'">
+            <div class="lab-card" onclick="window.location.href='html/vektor.html'">
                 <div class="lab-icon">➡️</div>
                 <h3>Penjumlahan Vektor</h3>
                 <p>Pelajari cara menjumlahkan vektor menggunakan metode poligon dan jajaran genjang</p>
                 <button class="btn">Mulai Simulasi</button>
             </div>
 
-            <div class="lab-card" onclick="window.location.href='parabola.html'">
+            <div class="lab-card" onclick="window.location.href='html/parabola.html'">
                 <div class="lab-icon">🎯</div>
                 <h3>Gerak Parabola</h3>
                 <p>Simulasi gerak proyektil dan analisis lintasan parabola dengan berbagai sudut elevasi</p>
                 <button class="btn">Mulai Simulasi</button>
             </div>
 
-            <div class="lab-card" onclick="window.location.href='newton.html'">
+            <div class="lab-card" onclick="window.location.href='html/newton.html'">
                 <div class="lab-icon">⚖️</div>
                 <h3>Hukum Newton</h3>
                 <p>Eksplorasi hukum-hukum Newton tentang gerak dan gaya</p>
@@ -57,7 +57,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     
-    <script src="../js/auth.js"></script>
+    <script src="js/auth.js"></script>
     <script>
         VirtualLabAuth.requireAuth();
         
@@ -68,7 +68,7 @@
             
             const result = await VirtualLabAuth.logout();
             if (result.success) {
-                window.location.href = 'login.html';
+                window.location.href = 'html/login.html';
             }
         });
     </script>
