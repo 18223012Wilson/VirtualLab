@@ -20,7 +20,7 @@
             
             if (!currentUser) {
                 console.error('No user logged in');
-                window.location.href = 'login.html';
+                window.location.href = '../login.html';
                 return;
             }
 
@@ -68,7 +68,7 @@
 
         if (backBtn) {
             backBtn.addEventListener('click', () => {
-                window.location.href = 'home.html';
+                window.location.href = '../index.html';
             });
         }
 
@@ -104,7 +104,7 @@
             
             if (error.code === 'auth/requires-recent-login') {
                 alert('Sesi Anda sudah kadaluarsa. Silakan login ulang untuk mengubah password.');
-                window.location.href = 'login.html';
+                window.location.href = '../login.html';
             } else {
                 alert('Gagal mengubah password: ' + error.message);
             }
@@ -118,7 +118,7 @@
         try {
             const result = await VirtualLabAuth.logout();
             if (result.success) {
-                window.location.href = 'login.html';
+                window.location.href = '../login.html';
             }
         } catch (error) {
             console.error('Logout error:', error);

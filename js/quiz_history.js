@@ -296,7 +296,7 @@
     }
 
     function retakeQuiz(quizName) {
-        window.location.href = 'quiz.html';
+        window.location.href = '../quiz.html';
     }
 
     async function deleteQuiz(index) {
