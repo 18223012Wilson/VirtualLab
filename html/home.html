@@ -3,21 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Virtual Lab: Fisika (Beranda)</title>
+    <title>Virtual Lab: Fisika</title>
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-        /* Gaya tambahan khusus untuk homepage, jika diperlukan */
-        .lab-layout {
-            display: none !important; /* Pastikan tidak ada tampilan Lab di index */
-        }
-    </style>
 </head>
 <body>
     <header>
         <div class="header-content">
             <h1>Virtual Lab: Fisika</h1>
             <nav>
-                <button id="nav-home" class="active">Beranda</button>
+                <a href="home.html"><button id="nav-home" class="active">Beranda</button></a>
                 <a href="quiz.html"><button id="nav-quiz">Quiz</button></a>
                 <a href="profile.html"><button id="nav-profile">Profil</button></a>
                 <button id="logoutBtn">Logout</button>
@@ -26,95 +20,57 @@
     </header>
 
     <main>
-        <!-- Tampilan 1: Beranda (Homepage) -->
-        <section id="homepage-view" class="view-container">
-            <h2>Pilih Eksperimen Virtual</h2>
-            <p>Selamat datang di Lab Virtual. Klik salah satu kartu di bawah untuk memulai simulasi.</p>
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h2 class="lab-title">Selamat Datang di Virtual Lab Fisika</h2>
+            <p class="lab-subtitle" style="text-align: center;">Eksplorasi konsep fisika melalui simulasi interaktif</p>
+        </div>
 
-            <div class="grid-container">
-
-                <!-- Kartu 1: Gerak Parabola -->
-                <!-- Diarahkan ke file Parabola.html -->
-                <a href="parabola.html" class="lab-card-link">
-                    <div id="card-parabola" class="lab-card">
-                        <div class="card-icon-wrapper">
-                            <!-- Ikon Placeholder Gerak Parabola  -->
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 19H19" stroke="#3f51b5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 15C5.5 8 13.5 4 21 6" stroke="#ff5722" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </div>
-                        <h3>Gerak Parabola</h3>
-                        <p>Simulasi lintasan proyektil (peluru) yang dipengaruhi oleh gravitasi.</p>
-                    </div>
-                </a>
-
-                <!-- Kartu 2: Hukum Newton -->
-                <!-- Diarahkan ke file newton.html -->
-                <a href="newton.html" class="lab-card-link">
-                    <div id="card-newton" class="lab-card">
-                        <div class="card-icon-wrapper">
-                             <!-- Ikon Placeholder Hukum Newton [Image of physics force] -->
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM12 17V7M8 12h8" stroke="#3f51b5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </div>
-                        <h3>Hukum Newton II</h3>
-                        <p>Eksplorasi hubungan antara gaya, massa, dan percepatan.</p>
-                    </div>
-                </a>
-
-                <!-- Kartu 3: Vektor -->
-                <!-- Diarahkan ke file vektor.html -->
-                <a href="vektor.html" class="lab-card-link">
-                    <div id="card-newton" class="lab-card">
-                        <div class="card-icon-wrapper">
-                             <!-- Ikon Placeholder Hukum Newton [Image of physics force] -->
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM12 17V7M8 12h8" stroke="#3f51b5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </div>
-                        <h3>Resultan Vektor</h3>
-                        <p>Analisis penjumlahan beberapa vektor untuk menemukan vektor pengganti yang setara.</p>
-                    </div>
-                </a>
+        <div class="labs-grid">
+            <div class="lab-card" onclick="window.location.href='vektor.html'">
+                <div class="lab-icon">➡️</div>
+                <h3>Penjumlahan Vektor</h3>
+                <p>Pelajari cara menjumlahkan vektor menggunakan metode poligon dan jajaran genjang</p>
+                <button class="btn">Mulai Simulasi</button>
             </div>
-        </section>
+
+            <div class="lab-card" onclick="window.location.href='parabola.html'">
+                <div class="lab-icon">🎯</div>
+                <h3>Gerak Parabola</h3>
+                <p>Simulasi gerak proyektil dan analisis lintasan parabola dengan berbagai sudut elevasi</p>
+                <button class="btn">Mulai Simulasi</button>
+            </div>
+
+            <div class="lab-card" onclick="window.location.href='newton.html'">
+                <div class="lab-icon">⚖️</div>
+                <h3>Hukum Newton</h3>
+                <p>Eksplorasi hukum-hukum Newton tentang gerak dan gaya</p>
+                <button class="btn">Mulai Simulasi</button>
+            </div>
+        </div>
     </main>
 
     <footer>
-        <p>Lab Virtual Fisika &copy; 2024</p>
+        <p>Virtual Lab: Fisika</p>
     </footer>
 
-    <!-- Firebase scripts -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
     <script src="../js/auth.js"></script>
     <script>
-        // Proteksi halaman - redirect ke login jika belum login
         VirtualLabAuth.requireAuth();
         
-        // Ambil data user yang login
-        const currentUser = VirtualLabAuth.getCurrentUser();
-        console.log('Welcome:', currentUser?.fullName);
-        
-        // Logout functionality
         const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', async () => {
-                const confirmed = confirm('Apakah Anda yakin ingin logout?');
-                if (!confirmed) return;
-                
-                logoutBtn.disabled = true;
-                logoutBtn.textContent = 'Logging out...';
-                
-                try {
-                    const result = await VirtualLabAuth.logout();
-                    if (result.success) {
-                        window.location.href = 'login.html';
-                    }
-                } catch (error) {
-                    console.error('Logout error:', error);
-                    alert('Gagal logout. Silakan coba lagi.');
-                    logoutBtn.disabled = false;
-                    logoutBtn.textContent = 'Logout';
-                }
-            });
-        }
+        logoutBtn.addEventListener('click', async () => {
+            const confirmed = confirm('Apakah Anda yakin ingin logout?');
+            if (!confirmed) return;
+            
+            const result = await VirtualLabAuth.logout();
+            if (result.success) {
+                window.location.href = 'login.html';
+            }
+        });
     </script>
 </body>
 </html>

@@ -1,12 +1,6 @@
-// Modul Autentikasi untuk Virtual Lab dengan Firebase
-
-// Import Firebase (CDN akan ditambahkan di HTML)
-// Pastikan Firebase SDK sudah di-load sebelum script ini
-
 (function() {
     'use strict';
 
-    // Firebase Configuration - GANTI DENGAN CONFIG ANDA
     const firebaseConfig = {
         apiKey: "AIzaSyDLZlcHqU7N6HY389ijgYzIPVIuZAza4_A",
         authDomain: "virtuallab-b69f8.firebaseapp.com",
@@ -18,7 +12,6 @@
         measurementId: "G-FK0V08SGLE"
     };
 
-    // Initialize Firebase
     let auth = null;
     let db = null;
 
@@ -37,12 +30,10 @@
         console.error('❌ Firebase initialization error:', error);
     }
 
-    // Fallback ke localStorage jika Firebase tidak tersedia
     const USERS_KEY = 'virtuallab_users';
     const CURRENT_USER_KEY = 'virtuallab_current_user';
     const SESSION_KEY = 'virtuallab_session';
 
-    // Helper functions untuk localStorage (fallback)
     function getUsers() {
         const data = localStorage.getItem(USERS_KEY);
         return data ? JSON.parse(data) : [];
@@ -69,7 +60,6 @@
         localStorage.removeItem('username');
     }
 
-    // Hash password untuk fallback localStorage
     function hashPassword(password) {
         let hash = 0;
         for (let i = 0; i < password.length; i++) {
@@ -80,7 +70,6 @@
         return 'hashed_' + Math.abs(hash).toString(36);
     }
 
-    // Register user
     async function register(email, username, password, fullName) {
         try {
             console.log('Starting registration process...');
@@ -93,7 +82,6 @@
                 };
             }
 
-            // Cek apakah username sudah digunakan
             try {
                 console.log('Checking if username exists:', username);
                 const usernameSnapshot = await db.collection('users')
@@ -109,17 +97,14 @@
                 }
             } catch (checkError) {
                 console.warn('Username check error (continuing anyway):', checkError);
-                // Lanjutkan proses registrasi meskipun cek username gagal
             }
 
-            // Create user di Firebase Auth
             console.log('Creating user in Firebase Auth...');
             const userCredential = await auth.createUserWithEmailAndPassword(email, password);
             const user = userCredential.user;
 
             console.log('User created in Auth, saving to Firestore...');
 
-            // Simpan data user ke Firestore
             await db.collection('users').doc(user.uid).set({
                 uid: user.uid,
                 email: email,
@@ -130,7 +115,6 @@
 
             console.log('✅ User registered successfully in Firebase');
 
-            // Auto logout setelah register
             await auth.signOut();
 
             return {
@@ -162,7 +146,6 @@
         }
     }
 
-    // Login user
     async function login(emailOrUsername, password) {
         try {
             console.log('Starting login process...');
@@ -177,7 +160,6 @@
 
             let email = emailOrUsername;
 
-            // Jika input bukan email, cari email berdasarkan username
             if (!emailOrUsername.includes('@')) {
                 try {
                     console.log('Looking up email from username:', emailOrUsername);
@@ -204,14 +186,12 @@
                 }
             }
 
-            // Login dengan Firebase Auth
             console.log('Attempting login with email:', email);
             const userCredential = await auth.signInWithEmailAndPassword(email, password);
             const user = userCredential.user;
 
             console.log('Login successful, fetching user data...');
 
-            // Ambil data user dari Firestore
             try {
                 const userDoc = await db.collection('users').doc(user.uid).get();
                 
@@ -225,7 +205,6 @@
                 
                 const userData = userDoc.data();
 
-                // Simpan session
                 const session = {
                     uid: user.uid,
                     email: userData.email,
@@ -246,7 +225,6 @@
             } catch (firestoreError) {
                 console.error('Firestore fetch error:', firestoreError);
                 
-                // Fallback: buat session minimal dengan data dari Auth
                 const session = {
                     uid: user.uid,
                     email: user.email,
@@ -292,7 +270,6 @@
         }
     }
 
-    // Logout
     async function logout() {
         try {
             if (auth && auth.currentUser) {
@@ -315,7 +292,6 @@
         }
     }
 
-    // Check if user is authenticated
     function isAuthenticated() {
         if (auth && auth.currentUser) {
             return true;
@@ -325,10 +301,8 @@
         return session !== null;
     }
 
-    // Get current user
     function getCurrentUser() {
         if (auth && auth.currentUser) {
-            // Ambil dari session storage untuk data lengkap
             const session = sessionStorage.getItem('virtuallab_session');
             if (session) {
                 return JSON.parse(session);
@@ -338,7 +312,6 @@
         return null;
     }
 
-    // Redirect ke login jika belum login
     function requireAuth() {
         if (!isAuthenticated()) {
             window.location.href = 'login.html';
@@ -347,7 +320,6 @@
         return true;
     }
 
-    // Redirect ke home jika sudah login
     function redirectIfAuthenticated() {
         if (isAuthenticated()) {
             window.location.href = 'home.html';
@@ -356,7 +328,6 @@
         return false;
     }
 
-    // Update password
     async function changePassword(oldPassword, newPassword) {
         try {
             if (auth && auth.currentUser) {
@@ -371,7 +342,6 @@
 
                 return { success: true, message: 'Password berhasil diubah.' };
             } else {
-                // Fallback localStorage
                 const currentUser = getCurrentUser();
                 if (!currentUser) {
                     return { success: false, message: 'User tidak ditemukan.' };
@@ -413,7 +383,6 @@
         }
     }
 
-    // Monitor auth state changes
     if (auth) {
         auth.onAuthStateChanged((user) => {
             if (user) {
@@ -424,38 +393,6 @@
         });
     }
 
-    // Inisialisasi demo users untuk localStorage fallback
-    function initDemoUsers() {
-        if (auth) return; // Skip jika menggunakan Firebase
-        
-        const users = getUsers();
-        if (users.length === 0) {
-            const demoUsers = [
-                {
-                    id: 'demo1',
-                    email: 'demo@virtuallab.com',
-                    username: 'demo',
-                    fullName: 'Demo User',
-                    password: hashPassword('demo123'),
-                    createdAt: new Date().toISOString(),
-                    lastLogin: null
-                },
-                {
-                    id: 'admin1',
-                    email: 'admin@virtuallab.com',
-                    username: 'admin',
-                    fullName: 'Administrator',
-                    password: hashPassword('admin123'),
-                    createdAt: new Date().toISOString(),
-                    lastLogin: null
-                }
-            ];
-            saveUsers(demoUsers);
-            console.log('Demo users created: demo/demo123 and admin/admin123');
-        }
-    }
-
-    // Export fungsi ke global scope
     window.VirtualLabAuth = {
         register,
         login,
@@ -465,12 +402,7 @@
         redirectIfAuthenticated,
         getCurrentUser,
         changePassword,
-        initDemoUsers,
-        // Firebase specific
         getFirebaseAuth: () => auth,
         getFirebaseDb: () => db
     };
-
-    // Inisialisasi
-    initDemoUsers();
 })();

@@ -15,8 +15,8 @@ let xmaxOutput = null;
 let ymaxOutput = null;
 let ttotalOutput = null;
 
-let v0 = 10; // Diubah dari 1 ke 10
-let angleDeg = 15; // Diubah dari 1 ke 15
+let v0 = 10;
+let angleDeg = 15; 
 let angleRad = angleDeg * (Math.PI / 180);
 
 let t = 0;

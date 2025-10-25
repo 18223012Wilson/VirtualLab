@@ -3,516 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar — Virtual Lab</title>
+    <title>Register — Virtual Lab</title>
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-        /* Additional styles for register page */
-        body {
-            background: radial-gradient(800px 400px at 10% 10%, rgba(11,110,253,0.06), transparent),
-                        radial-gradient(600px 300px at 90% 90%, rgba(76,175,80,0.04), transparent),
-                        var(--bg-page);
-        }
-        
-        main {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: var(--spacing-xl);
-        }
-        
-        .register-card {
-            width: 100%;
-            max-width: 480px;
-            background-color: var(--bg-card);
-            border-radius: var(--border-radius-lg);
-            padding: var(--spacing-xl);
-            box-shadow: var(--shadow-lg);
-            margin: var(--spacing-xl) 0;
-        }
-        
-        .brand {
-            display: flex;
-            gap: var(--spacing-md);
-            align-items: center;
-            margin-bottom: var(--spacing-lg);
-        }
-        
-        .logo {
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--primary-color), #06b6d4);
-            display: inline-block;
-            box-shadow: 0 6px 18px rgba(11,110,253,0.2);
-        }
-        
-        .brand h1 {
-            font-size: 1.5rem;
-            margin: 0;
-            color: var(--text-primary);
-        }
-        
-        .brand p {
-            margin: 4px 0 0;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-        
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-md);
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--spacing-md);
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .form-group label {
-            display: block;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: var(--spacing-xs);
-            font-weight: 600;
-        }
-        
-        .input-wrapper {
-            display: flex;
-            align-items: center;
-            background-color: var(--bg-input);
-            border-radius: var(--border-radius-sm);
-            border: 1px solid var(--border-color);
-            transition: all 0.2s ease;
-            padding: var(--spacing-sm);
-        }
-        
-        .input-wrapper:focus-within {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(11,110,253,0.1);
-        }
-        
-        .input-wrapper input {
-            border: none;
-            outline: none;
-            background: transparent;
-            font-size: 0.95rem;
-            width: 100%;
-            padding: var(--spacing-xs) 0;
-            color: var(--text-primary);
-        }
-        
-        .toggle-password {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            padding: 4px var(--spacing-xs);
-            border-radius: var(--border-radius-sm);
-            transition: all 0.2s ease;
-        }
-        
-        .toggle-password:hover {
-            color: var(--primary-color);
-            background-color: rgba(11,110,253,0.05);
-        }
-        
-        .password-strength {
-            margin-top: var(--spacing-xs);
-            font-size: 0.85rem;
-            display: none;
-        }
-        
-        .password-strength.weak {
-            color: var(--danger-color);
-            display: block;
-        }
-        
-        .password-strength.medium {
-            color: #ff9800;
-            display: block;
-        }
-        
-        .password-strength.strong {
-            color: var(--success-color);
-            display: block;
-        }
-        
-        .checkbox-label {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--spacing-xs);
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            cursor: pointer;
-            margin-top: var(--spacing-xs);
-        }
-        
-        .checkbox-label input[type="checkbox"] {
-            cursor: pointer;
-            margin-top: 2px;
-        }
-        
-        .link {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
-        
-        .link:hover {
-            color: var(--primary-hover);
-            text-decoration: underline;
-        }
-        
-        .submit-btn {
-            width: 100%;
-            margin-top: var(--spacing-md);
-        }
-        
-        .error-message {
-            color: var(--danger-color);
-            font-size: 0.85rem;
-            margin-top: var(--spacing-xs);
-            display: none;
-        }
-        
-        .success-message {
-            color: var(--success-color);
-            font-size: 0.85rem;
-            margin-top: var(--spacing-xs);
-            display: none;
-        }
-        
-        .footer-text {
-            margin-top: var(--spacing-lg);
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-        
-        .help-text {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-        
-        @media (max-width: 600px) {
-            .register-card {
-                padding: var(--spacing-lg);
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
 <body>
-    <main>
-        <div class="register-card">
-            <div class="brand">
-                <span class="logo" aria-label="Logo Virtual Lab"></span>
-                <div>
-                    <h1>Daftar Virtual Lab</h1>
-                    <p>Buat akun untuk mengakses semua lab fisika.</p>
-                </div>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>🔬 Virtual Lab: Fisika</h2>
+                <p>Buat akun baru</p>
             </div>
 
-            <form id="registerForm" action="/register" method="post" novalidate>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="firstName">Nama Depan</label>
-                        <div class="input-wrapper">
-                            <input 
-                                id="firstName" 
-                                name="firstName" 
-                                type="text" 
-                                autocomplete="given-name" 
-                                required 
-                                placeholder="John"
-                            >
-                        </div>
-                    </div>
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+            <div id="successMessage" class="success-message" style="display: none;"></div>
 
-                    <div class="form-group">
-                        <label for="lastName">Nama Belakang</label>
-                        <div class="input-wrapper">
-                            <input 
-                                id="lastName" 
-                                name="lastName" 
-                                type="text" 
-                                autocomplete="family-name" 
-                                required 
-                                placeholder="Doe"
-                            >
-                        </div>
-                    </div>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="fullName">Nama Lengkap</label>
+                    <input type="text" id="fullName" required>
                 </div>
 
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <div class="input-wrapper">
-                        <input 
-                            id="username" 
-                            name="username" 
-                            type="text" 
-                            autocomplete="username" 
-                            required 
-                            placeholder="johndoe123"
-                            pattern="^[a-zA-Z0-9_]{3,20}$"
-                        >
-                    </div>
-                    <span class="help-text">3-20 karakter, hanya huruf, angka, dan underscore</span>
+                    <input type="text" id="username" required>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <div class="input-wrapper">
-                        <input 
-                            id="email" 
-                            name="email" 
-                            type="email" 
-                            autocomplete="email" 
-                            required 
-                            placeholder="john@example.com"
-                        >
-                    </div>
+                    <input type="email" id="email" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Kata Sandi</label>
-                    <div class="input-wrapper">
-                        <input 
-                            id="password" 
-                            name="password" 
-                            type="password" 
-                            autocomplete="new-password" 
-                            required 
-                            placeholder="Minimal 8 karakter"
-                            minlength="8"
-                        >
-                        <button type="button" class="toggle-password" id="togglePwd">
-                            Tampilkan
-                        </button>
-                    </div>
-                    <div id="passwordStrength" class="password-strength"></div>
+                    <label for="password">Password (min. 6 karakter)</label>
+                    <input type="password" id="password" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="confirmPassword">Konfirmasi Kata Sandi</label>
-                    <div class="input-wrapper">
-                        <input 
-                            id="confirmPassword" 
-                            name="confirmPassword" 
-                            type="password" 
-                            autocomplete="new-password" 
-                            required 
-                            placeholder="Ulangi kata sandi"
-                        >
-                        <button type="button" class="toggle-password" id="toggleConfirmPwd">
-                            Tampilkan
-                        </button>
-                    </div>
+                    <label for="confirmPassword">Konfirmasi Password</label>
+                    <input type="password" id="confirmPassword" required>
                 </div>
 
-                <label class="checkbox-label">
-                    <input id="terms" name="terms" type="checkbox" required>
-                    <span>Saya setuju dengan <a class="link" href="/terms" target="_blank">Syarat & Ketentuan</a> dan <a class="link" href="/privacy" target="_blank">Kebijakan Privasi</a></span>
-                </label>
-
-                <button class="btn submit-btn" id="submitBtn" type="submit">
-                    Daftar Sekarang
-                </button>
-                
-                <div id="errorMsg" class="error-message" role="alert"></div>
-                <div id="successMsg" class="success-message" role="alert"></div>
+                <button type="submit" class="btn" style="width: 100%;">Daftar</button>
             </form>
 
-            <div class="footer-text">
-                Sudah punya akun? <a class="link" href="login.html">Masuk di sini</a>
+            <div class="auth-links">
+                <p>Sudah punya akun? <a href="login.html">Login di sini</a></p>
             </div>
         </div>
-    </main>
+    </div>
 
-    <!-- Firebase SDK - TAMBAHKAN INI SEBELUM auth.js -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     
     <script src="../js/auth.js"></script>
     <script>
-        (function(){
-            VirtualLabAuth.redirectIfAuthenticated();
+        const registerForm = document.getElementById('registerForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
 
-            const form = document.getElementById('registerForm');
-            const firstName = document.getElementById('firstName');
-            const lastName = document.getElementById('lastName');
-            const username = document.getElementById('username');
-            const email = document.getElementById('email');
-            const pwd = document.getElementById('password');
-            const confirmPwd = document.getElementById('confirmPassword');
-            const terms = document.getElementById('terms');
-            const err = document.getElementById('errorMsg');
-            const success = document.getElementById('successMsg');
-            const strengthIndicator = document.getElementById('passwordStrength');
-            const togglePwd = document.getElementById('togglePwd');
-            const toggleConfirmPwd = document.getElementById('toggleConfirmPwd');
-            const submitBtn = document.getElementById('submitBtn');
-
-            // Toggle password visibility
-            togglePwd.addEventListener('click', () => {
-                const isPwd = pwd.type === 'password';
-                pwd.type = isPwd ? 'text' : 'password';
-                togglePwd.textContent = isPwd ? 'Sembunyikan' : 'Tampilkan';
-            });
-
-            toggleConfirmPwd.addEventListener('click', () => {
-                const isPwd = confirmPwd.type === 'password';
-                confirmPwd.type = isPwd ? 'text' : 'password';
-                toggleConfirmPwd.textContent = isPwd ? 'Sembunyikan' : 'Tampilkan';
-            });
-
-            // Password strength checker
-            pwd.addEventListener('input', () => {
-                const password = pwd.value;
-                let strength = 0;
-                
-                if (password.length >= 8) strength++;
-                if (password.match(/[a-z]/)) strength++;
-                if (password.match(/[A-Z]/)) strength++;
-                if (password.match(/[0-9]/)) strength++;
-                if (password.match(/[^a-zA-Z0-9]/)) strength++;
-
-                strengthIndicator.className = 'password-strength';
-                
-                if (password.length === 0) {
-                    strengthIndicator.style.display = 'none';
-                } else if (strength <= 2) {
-                    strengthIndicator.className += ' weak';
-                    strengthIndicator.textContent = '⚠️ Kata sandi lemah';
-                } else if (strength <= 3) {
-                    strengthIndicator.className += ' medium';
-                    strengthIndicator.textContent = '🔒 Kata sandi sedang';
-                } else {
-                    strengthIndicator.className += ' strong';
-                    strengthIndicator.textContent = '✅ Kata sandi kuat';
-                }
-            });
-
-            function showError(msg){
-                err.style.display = 'block';
-                err.textContent = msg;
-                success.style.display = 'none';
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value;
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            if (password !== confirmPassword) {
+                errorMessage.textContent = 'Password tidak cocok!';
+                errorMessage.style.display = 'block';
+                return;
             }
             
-            function showSuccess(msg){
-                success.style.display = 'block';
-                success.textContent = msg;
-                err.style.display = 'none';
+            if (password.length < 6) {
+                errorMessage.textContent = 'Password minimal 6 karakter!';
+                errorMessage.style.display = 'block';
+                return;
             }
             
-            function clearMessages(){
-                err.style.display = 'none';
-                success.style.display = 'none';
-            }
-
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                clearMessages();
+            const submitBtn = registerForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Mendaftar...';
+            
+            try {
+                const result = await VirtualLabAuth.register(email, username, password, fullName);
                 
-                // Validation
-                if (!firstName.value.trim()){
-                    showError('Harap isi nama depan.');
-                    firstName.focus();
-                    return;
-                }
-                
-                if (!lastName.value.trim()){
-                    showError('Harap isi nama belakang.');
-                    lastName.focus();
-                    return;
-                }
-                
-                if (!username.value.trim()){
-                    showError('Harap isi username.');
-                    username.focus();
-                    return;
-                }
-                
-                if (!/^[a-zA-Z0-9_]{3,20}$/.test(username.value)){
-                    showError('Username harus 3-20 karakter, hanya huruf, angka, dan underscore.');
-                    username.focus();
-                    return;
-                }
-                
-                if (!email.value.trim() || !email.validity.valid){
-                    showError('Harap isi email yang valid.');
-                    email.focus();
-                    return;
-                }
-                
-                if (pwd.value.length < 8){
-                    showError('Kata sandi minimal 8 karakter.');
-                    pwd.focus();
-                    return;
-                }
-                
-                if (pwd.value !== confirmPwd.value){
-                    showError('Konfirmasi kata sandi tidak cocok.');
-                    confirmPwd.focus();
-                    return;
-                }
-                
-                if (!terms.checked){
-                    showError('Anda harus menyetujui Syarat & Ketentuan.');
-                    terms.focus();
-                    return;
-                }
-                
-                // Register menggunakan auth.js (ASYNC)
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Mendaftar...';
-                
-                try {
-                    const fullName = `${firstName.value.trim()} ${lastName.value.trim()}`;
-                    const result = await VirtualLabAuth.register(
-                        email.value.trim(),
-                        username.value.trim(),
-                        pwd.value,
-                        fullName
-                    );
+                if (result.success) {
+                    successMessage.textContent = result.message;
+                    successMessage.style.display = 'block';
+                    registerForm.reset();
                     
-                    if (result.success) {
-                        showSuccess('✅ ' + result.message + ' Mengalihkan ke login...');
-                        
-                        setTimeout(() => {
-                            window.location.href = 'login.html';
-                        }, 1500);
-                    } else {
-                        showError('❌ ' + result.message);
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Daftar Sekarang';
-                    }
-                } catch (error) {
-                    console.error('Register error:', error);
-                    showError('❌ Terjadi kesalahan: ' + error.message);
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    errorMessage.textContent = result.message;
+                    errorMessage.style.display = 'block';
                     submitBtn.disabled = false;
-                    submitBtn.textContent = 'Daftar Sekarang';
+                    submitBtn.textContent = 'Daftar';
                 }
-            });
+            } catch (error) {
+                errorMessage.textContent = 'Terjadi kesalahan: ' + error.message;
+                errorMessage.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Daftar';
+            }
+        });
 
-            // Log Firebase status
-            console.log('Firebase enabled:', VirtualLabAuth.getFirebaseAuth() ? 'Yes' : 'No (using localStorage)');
-        })();
+        if (VirtualLabAuth.isAuthenticated()) {
+            window.location.href = 'home.html';
+        }
     </script>
 </body>
 </html>

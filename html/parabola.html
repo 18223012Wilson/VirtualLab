@@ -20,7 +20,6 @@
     </header>
 
     <main>
-        <!-- Tampilan Lab Gerak Parabola -->
         <section id="parabola-lab-view" class="view-container lab-layout">
             <h2 class="lab-title">Gerak Parabola</h2>
             <p class="lab-subtitle">Gerak parabola adalah gerak yang terdiri dari dua komponen kecepatan (kecepatan sumbu-x dan sumbu-y) dan seluruh lintasannya dipengaruhi oleh gaya gravitasi.</p>
@@ -54,14 +53,13 @@
             <h2 class="lab-title">Contoh Penerapan</h2>
             <p class="lab-subtitle">Menendang bola: ketika kita menendang sepak bola ke gawang, maka bola akan melambung membentuk lintasan parabola sebelum jatuh ke permukaan jika ditendang dengan sudut elevasi tertentu.</p>
             <div class="lab-apply-image-container">
-                <img src="../asset/parabola_tendang.png" alt="Contoh Penerapan Gerak Parabola" width="50%">
+                <img src="../asset/parabola_menendang.png" alt="Contoh Penerapan Gerak Parabola" width="50%">
             </div>
 
             <h2 class="lab-title">Lab Gerak Parabola</h2>
             <p class="lab-subtitle">Simulasikan lintasan proyektil (peluru) yang dipengaruhi oleh gravitasi dengan mengubah kecepatan awal (v₀) dan sudut elevasi (θ).</p>
 
             <div class="main-grid">
-                <!-- Kolom Kiri: Kontrol dan Hasil -->
                 <div>
                     <section id="controls" class="card">
                         <h2>Parameter Awal</h2>
@@ -91,7 +89,6 @@
                     </section>
                 </div>
 
-                <!-- Kolom Kanan: Visualisasi -->
                 <section id="visualization" class="card">
                     <h2>Visualisasi Gerak</h2>
                     <canvas id="parabolaCanvas" width="800" height="450"></canvas>
@@ -104,7 +101,6 @@
         <p>G = 9.8 m/s² (Konstanta Gravitasi)</p>
     </footer>
 
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
@@ -112,10 +108,8 @@
     <script src="../js/user_data.js"></script>
     <script src="../js/parabola_script.js"></script>
     <script>
-        // Proteksi halaman - redirect ke login jika belum login
         VirtualLabAuth.requireAuth();
         
-        // Logout functionality
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', async () => {

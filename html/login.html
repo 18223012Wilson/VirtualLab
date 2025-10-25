@@ -3,341 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masuk — Virtual Lab</title>
+    <title>Login — Virtual Lab</title>
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-        /* Additional styles for login page */
-        body {
-            background: radial-gradient(800px 400px at 10% 10%, rgba(11,110,253,0.06), transparent),
-                        radial-gradient(600px 300px at 90% 90%, rgba(76,175,80,0.04), transparent),
-                        var(--bg-page);
-        }
-        
-        main {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: var(--spacing-xl);
-        }
-        
-        .login-card {
-            width: 100%;
-            max-width: 440px;
-            background-color: var(--bg-card);
-            border-radius: var(--border-radius-lg);
-            padding: var(--spacing-xl);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .brand {
-            display: flex;
-            gap: var(--spacing-md);
-            align-items: center;
-            margin-bottom: var(--spacing-lg);
-        }
-        
-        .logo {
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--primary-color), #06b6d4);
-            display: inline-block;
-            box-shadow: 0 6px 18px rgba(11,110,253,0.2);
-        }
-        
-        .brand h1 {
-            font-size: 1.5rem;
-            margin: 0;
-            color: var(--text-primary);
-        }
-        
-        .brand p {
-            margin: 4px 0 0;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-        
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-md);
-        }
-        
-        .form-group label {
-            display: block;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: var(--spacing-xs);
-            font-weight: 600;
-        }
-        
-        .input-wrapper {
-            display: flex;
-            align-items: center;
-            background-color: var(--bg-input);
-            border-radius: var(--border-radius-sm);
-            border: 1px solid var(--border-color);
-            transition: all 0.2s ease;
-            padding: var(--spacing-sm);
-        }
-        
-        .input-wrapper:focus-within {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(11,110,253,0.1);
-        }
-        
-        .input-wrapper input {
-            border: none;
-            outline: none;
-            background: transparent;
-            font-size: 0.95rem;
-            width: 100%;
-            padding: var(--spacing-xs) 0;
-            color: var(--text-primary);
-        }
-        
-        .toggle-password {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            padding: 4px var(--spacing-xs);
-            border-radius: var(--border-radius-sm);
-            transition: all 0.2s ease;
-        }
-        
-        .toggle-password:hover {
-            color: var(--primary-color);
-            background-color: rgba(11,110,253,0.05);
-        }
-        
-        .form-actions {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: var(--spacing-xs);
-        }
-        
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            cursor: pointer;
-        }
-        
-        .checkbox-label input[type="checkbox"] {
-            cursor: pointer;
-        }
-        
-        .link {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
-        
-        .link:hover {
-            color: var(--primary-hover);
-            text-decoration: underline;
-        }
-        
-        .submit-btn {
-            width: 100%;
-            margin-top: var(--spacing-md);
-        }
-        
-        .error-message {
-            color: var(--danger-color);
-            font-size: 0.85rem;
-            margin-top: var(--spacing-xs);
-            display: none;
-        }
-        
-        .success-message {
-            color: var(--success-color);
-            font-size: 0.85rem;
-            margin-top: var(--spacing-xs);
-            display: none;
-        }
-        
-        .footer-text {
-            margin-top: var(--spacing-lg);
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-        
-        @media (max-width: 600px) {
-            .login-card {
-                padding: var(--spacing-lg);
-            }
-            
-            .form-actions {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: var(--spacing-sm);
-            }
-        }
-    </style>
 </head>
 <body>
-    <main>
-        <div class="login-card">
-            <div class="brand">
-                <span class="logo" aria-label="Logo Virtual Lab"></span>
-                <div>
-                    <h1>Masuk ke Virtual Lab</h1>
-                    <p>Masukkan data login Anda untuk melanjutkan.</p>
-                </div>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>🔬 Virtual Lab: Fisika</h2>
+                <p>Silakan login untuk melanjutkan</p>
             </div>
 
-            <form id="loginForm" novalidate>
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+            <form id="loginForm">
                 <div class="form-group">
-                    <label for="identifier">Email atau Username</label>
-                    <div class="input-wrapper">
-                        <input 
-                            id="identifier" 
-                            name="identifier" 
-                            type="text" 
-                            autocomplete="username" 
-                            required 
-                            placeholder="contoh@domain.com atau username"
-                        >
-                    </div>
+                    <label for="emailOrUsername">Email atau Username</label>
+                    <input type="text" id="emailOrUsername" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Kata Sandi</label>
-                    <div class="input-wrapper">
-                        <input 
-                            id="password" 
-                            name="password" 
-                            type="password" 
-                            autocomplete="current-password" 
-                            required 
-                            placeholder="Kata sandi Anda"
-                        >
-                        <button type="button" class="toggle-password" id="togglePwd">
-                            Tampilkan
-                        </button>
-                    </div>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
                 </div>
 
-                <button class="btn submit-btn" id="submitBtn" type="submit">
-                    Masuk
-                </button>
-                
-                <div id="errorMsg" class="error-message" role="alert"></div>
-                <div id="successMsg" class="success-message" role="alert"></div>
+                <button type="submit" class="btn" style="width: 100%;">Login</button>
             </form>
 
-            <div class="footer-text">
-                Belum punya akun? <a class="link" href="register.html">Daftar sekarang</a>
+            <div class="auth-links">
+                <p>Belum punya akun? <a href="register.html">Daftar di sini</a></p>
             </div>
         </div>
-    </main>
+    </div>
 
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     
-    <!-- Auth Script -->
     <script src="../js/auth.js"></script>
     <script>
-        (function(){
-            VirtualLabAuth.redirectIfAuthenticated();
+        const loginForm = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
 
-            const form = document.getElementById('loginForm');
-            const identifier = document.getElementById('identifier');
-            const pwd = document.getElementById('password');
-            const err = document.getElementById('errorMsg');
-            const success = document.getElementById('successMsg');
-            const togglePwd = document.getElementById('togglePwd');
-            const submitBtn = document.getElementById('submitBtn');
-
-            if (togglePwd) {
-                togglePwd.addEventListener('click', () => {
-                    const isPwd = pwd.type === 'password';
-                    pwd.type = isPwd ? 'text' : 'password';
-                    togglePwd.textContent = isPwd ? 'Sembunyikan' : 'Tampilkan';
-                });
-            }
-
-            function showError(msg){
-                if (err) {
-                    err.style.display = 'block';
-                    err.textContent = msg;
-                }
-                if (success) success.style.display = 'none';
-            }
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
             
-            function showSuccess(msg){
-                if (success) {
-                    success.style.display = 'block';
-                    success.textContent = msg;
-                }
-                if (err) err.style.display = 'none';
-            }
+            const emailOrUsername = document.getElementById('emailOrUsername').value;
+            const password = document.getElementById('password').value;
             
-            function clearMessages(){
-                if (err) err.style.display = 'none';
-                if (success) success.style.display = 'none';
-            }
-
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                clearMessages();
+            const submitBtn = loginForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Logging in...';
+            
+            errorMessage.style.display = 'none';
+            
+            try {
+                console.log('Attempting login...');
+                const result = await VirtualLabAuth.login(emailOrUsername, password);
                 
-                const identifierValue = identifier.value.trim();
-                const password = pwd.value;
+                console.log('Login result:', result);
                 
-                if (!identifierValue){
-                    showError('Harap isi email atau username.');
-                    identifier.focus();
-                    return;
-                }
-                
-                if (!password){
-                    showError('Harap isi kata sandi.');
-                    pwd.focus();
-                    return;
-                }
-                
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Memproses...';
-                
-                try {
-                    const result = await VirtualLabAuth.login(identifierValue, password);
-                    
-                    if (result.success) {
-                        showSuccess('✅ ' + result.message + ' Mengalihkan...');
-                        
-                        setTimeout(() => {
-                            window.location.href = 'home.html';
-                        }, 1000);
-                    } else {
-                        showError('❌ ' + result.message);
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Masuk';
-                        pwd.value = '';
-                        pwd.focus();
-                    }
-                } catch (error) {
-                    showError('❌ Terjadi kesalahan: ' + error.message);
+                if (result.success) {
+                    console.log('Login successful, redirecting...');
+                    window.location.href = 'home.html';
+                } else {
+                    errorMessage.textContent = result.message;
+                    errorMessage.style.display = 'block';
                     submitBtn.disabled = false;
-                    submitBtn.textContent = 'Masuk';
+                    submitBtn.textContent = 'Login';
                 }
-            });
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMessage.textContent = 'Terjadi kesalahan: ' + error.message;
+                errorMessage.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Login';
+            }
+        });
 
-            console.log('=== Login Page Ready ===');
-            console.log('Firebase enabled: ' + (VirtualLabAuth.getFirebaseAuth() ? 'Yes' : 'No (using localStorage)'));
-        })();
+        if (VirtualLabAuth.isAuthenticated()) {
+            window.location.href = 'home.html';
+        }
     </script>
 </body>
 </html>

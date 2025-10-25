@@ -5,93 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil — Virtual Lab</title>
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-        .profile-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: var(--spacing-xl);
-        }
-        
-        .profile-card {
-            background-color: var(--bg-card);
-            border-radius: var(--border-radius-lg);
-            padding: var(--spacing-xl);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .profile-header {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
-            padding-bottom: var(--spacing-lg);
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-color), #06b6d4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: white;
-            font-weight: bold;
-        }
-        
-        .profile-info h2 {
-            margin: 0 0 var(--spacing-xs) 0;
-            color: var(--text-primary);
-        }
-        
-        .profile-info p {
-            margin: 0;
-            color: var(--text-muted);
-        }
-        
-        .info-group {
-            margin-bottom: var(--spacing-lg);
-        }
-        
-        .info-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-weight: 600;
-            margin-bottom: var(--spacing-xs);
-        }
-        
-        .info-value {
-            font-size: 1rem;
-            color: var(--text-primary);
-            padding: var(--spacing-sm);
-            background-color: var(--bg-input);
-            border-radius: var(--border-radius-sm);
-        }
-        
-        .actions {
-            display: flex;
-            gap: var(--spacing-md);
-            margin-top: var(--spacing-xl);
-            padding-top: var(--spacing-lg);
-            border-top: 1px solid var(--border-color);
-            flex-wrap: wrap;
-        }
-        
-        .btn-danger {
-            background: linear-gradient(135deg, #F44336, #d32f2f);
-        }
-        
-        .btn-danger:hover {
-            background: linear-gradient(135deg, #d32f2f, #b71c1c);
-        }
-
-        .loading {
-            color: var(--text-muted);
-            font-style: italic;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -131,16 +44,6 @@
                 <div class="info-value" id="displayFullName">-</div>
             </div>
 
-            <div class="info-group">
-                <div class="info-label">Member Sejak</div>
-                <div class="info-value" id="memberSince">-</div>
-            </div>
-
-            <div class="info-group">
-                <div class="info-label">Waktu Login Terakhir</div>
-                <div class="info-value" id="lastLogin">-</div>
-            </div>
-
             <div class="actions">
                 <button class="btn" id="backBtn">
                     Kembali ke Beranda
@@ -151,9 +54,11 @@
                 <button class="btn" id="changePasswordBtn">
                     🔐 Ubah Password
                 </button>
-                <button class="btn btn-danger" id="logoutBtnCard">
-                    Logout
-                </button>
+                <div style="flex-grow: 1; text-align: center;">
+                    <button class="btn btn-danger" id="logoutBtnCard">
+                        Logout
+                    </button>
+                </div>
             </div>
         </div>
     </main>
@@ -162,24 +67,20 @@
         <p>Virtual Lab: Fisika</p>
     </footer>
 
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    
     <script src="../js/auth.js"></script>
     <script src="../js/user_data.js"></script>
     <script>
         (async function(){
             console.log('=== Profile Page Loading ===');
 
-            // Proteksi halaman
             if (!VirtualLabAuth.isAuthenticated()) {
                 window.location.href = 'login.html';
                 return;
             }
 
-            // Fungsi helper untuk update element
             function updateElement(id, value) {
                 const el = document.getElementById(id);
                 if (el) {
@@ -192,12 +93,10 @@
             }
 
             try {
-                // STEP 1: Ambil data dari session (cepat)
                 const currentUser = VirtualLabAuth.getCurrentUser();
                 console.log('Current user from session:', currentUser);
 
                 if (currentUser) {
-                    // Update dari session dulu
                     const firstLetter = (currentUser.fullName || currentUser.username || 'U')[0].toUpperCase();
                     updateElement('userAvatar', firstLetter);
                     updateElement('userName', currentUser.fullName || currentUser.username);
@@ -218,14 +117,12 @@
                     }
                 }
 
-                // STEP 2: Tunggu Firebase siap
                 console.log('Waiting for Firebase...');
                 if (window.UserData && window.UserData.waitForFirebase) {
                     await UserData.waitForFirebase();
                 }
                 console.log('Firebase ready!');
 
-                // STEP 3: Ambil data lengkap dari Firestore
                 const auth = VirtualLabAuth.getFirebaseAuth();
                 const db = VirtualLabAuth.getFirebaseDb();
                 
@@ -236,14 +133,12 @@
 
                 console.log('Loading data from Firestore for uid:', auth.currentUser.uid);
                 
-                // Get user document dari Firestore
                 const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
                 
                 if (userDoc.exists) {
                     const userData = userDoc.data();
                     console.log('User data from Firestore:', userData);
                     
-                    // Update data yang mungkin lebih lengkap dari Firestore
                     if (userData.fullName) {
                         updateElement('userName', userData.fullName);
                         updateElement('displayFullName', userData.fullName);
@@ -261,7 +156,6 @@
                         updateElement('displayUsername', userData.username);
                     }
                     
-                    // Update member since
                     if (userData.createdAt) {
                         const createdDate = new Date(userData.createdAt);
                         updateElement('memberSince', createdDate.toLocaleDateString('id-ID', {
@@ -281,12 +175,10 @@
                 console.error('Error details:', error.message);
                 console.error('Error stack:', error.stack);
                 
-                // Tampilkan error ke user
                 updateElement('userName', 'Error memuat data');
                 updateElement('userEmail', 'Silakan refresh halaman');
             }
 
-            // Event Listeners
             async function handleLogout() {
                 if (!confirm('Apakah Anda yakin ingin logout?')) return;
 
@@ -307,11 +199,11 @@
             });
 
             document.getElementById('changePasswordBtn')?.addEventListener('click', async () => {
-                const newPassword = prompt('Masukkan password baru (minimal 6 karakter):');
+                const newPassword = prompt('Masukkan password baru (minimal 8 karakter):');
                 if (!newPassword) return;
-                
-                if (newPassword.length < 6) {
-                    alert('Password minimal 6 karakter');
+
+                if (newPassword.length < 8) {
+                    alert('Password minimal 8 karakter');
                     return;
                 }
 

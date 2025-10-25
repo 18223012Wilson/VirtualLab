@@ -20,7 +20,6 @@
     </header>
 
     <main>
-        <!-- Tampilan Lab Hukum Newton -->
         <section id="newton-lab-view" class="view-container lab-layout">
             <h2 class="lab-title">Hukum Newton II</h2>
             <p class="lab-subtitle">Hukum Newton adalah hukum gerak yang menjadi hukum dasar dinamika dengan merumuskan gaya terhadap pengaruh gerak pada benda tertentu. Rumus ini kemudian dikenal dengan istilah Hukum I Newton, Hukum II Newton, dan Hukum III Newton.</p>
@@ -49,7 +48,6 @@
             <p class="lab-subtitle">Simulasikan gerak objek di bawah pengaruh gaya dorong dan gaya gesek.</p>
 
             <div class="main-grid">
-                <!-- Kolom Kiri: Kontrol dan Hasil -->
                 <div>
                     <section id="controls" class="card">
                         <h2>Parameter Simulasi</h2>
@@ -80,12 +78,10 @@
                     <section id="results" class="card">
                         <h2>Analisis Real-Time</h2>
                         
-                        <!-- Hasil Teoritis/Konstan -->
                         <p>Gaya Gesek (F_gesek): <span id="frictionForce_output">0.00</span> N</p>
                         <p>Gaya Netto (F_net): <span id="netForce_output">0.00</span> N</p>
                         <p>Percepatan (a): <span id="acceleration_output">0.00</span> m/s²</p>
                         
-                        <!-- Output Real-time -->
                         <hr>
                         <p>Waktu Saat Ini (t): <span id="time_output">0.00</span> s</p>
                         <p>Kecepatan (v): <span id="velocity_output">0.00</span> m/s</p>
@@ -93,7 +89,6 @@
                     </section>
                 </div>
 
-                <!-- Kolom Kanan: Visualisasi -->
                 <section id="visualization" class="card">
                     <h2>Visualisasi Gerak</h2>
                     <canvas id="newtonCanvas" width="800" height="450"></canvas>
@@ -108,16 +103,13 @@
 
     <script src="../js/newton_script.js"></script>
     
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="../js/auth.js"></script>
     <script>
-        // Proteksi halaman - redirect ke login jika belum login
         VirtualLabAuth.requireAuth();
         
-        // Logout functionality
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', async () => {

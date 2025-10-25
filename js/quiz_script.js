@@ -1,9 +1,6 @@
-// Quiz Script untuk Virtual Lab
-
 (function() {
     'use strict';
 
-    // Database soal quiz
     const quizDatabase = {
         'gerak-parabola': {
             title: 'Quiz Gerak Parabola',
@@ -150,14 +147,12 @@
         }
     };
 
-    // State quiz
     let currentQuiz = null;
     let currentQuestionIndex = 0;
     let userAnswers = [];
     let score = 0;
     let quizStartTime = null;
 
-    // DOM Elements
     const quizSelection = document.getElementById('quiz-selection');
     const quizContainer = document.getElementById('quiz-container');
     const resultContainer = document.getElementById('result-container');
@@ -179,13 +174,11 @@
 
     let timerInterval = null;
 
-    // Inisialisasi
     function init() {
         setupQuizCards();
         setupEventListeners();
     }
 
-    // Setup kartu pilihan quiz
     function setupQuizCards() {
         const quizCards = document.querySelectorAll('.quiz-card');
         quizCards.forEach(card => {
@@ -196,7 +189,6 @@
         });
     }
 
-    // Setup event listeners
     function setupEventListeners() {
         if (prevBtn) prevBtn.addEventListener('click', previousQuestion);
         if (nextBtn) nextBtn.addEventListener('click', nextQuestion);
@@ -205,7 +197,6 @@
         if (backToSelectionBtn) backToSelectionBtn.addEventListener('click', backToSelection);
     }
 
-    // Mulai quiz
     function startQuiz(quizId) {
         currentQuiz = { id: quizId, ...quizDatabase[quizId] };
         currentQuestionIndex = 0;
@@ -213,37 +204,28 @@
         score = 0;
         quizStartTime = Date.now();
 
-        // Log aktivitas
         if (window.UserData) {
             UserData.logActivity('quiz_start', `Memulai quiz: ${currentQuiz.title}`);
         }
 
-        // Tampilkan quiz container
         quizSelection.style.display = 'none';
         quizContainer.style.display = 'block';
         resultContainer.style.display = 'none';
 
-        // Set title
         quizTitle.textContent = currentQuiz.title;
 
-        // Start timer
         startTimer();
 
-        // Show first question
         showQuestion();
     }
 
-    // Tampilkan soal
     function showQuestion() {
         const question = currentQuiz.questions[currentQuestionIndex];
         
-        // Update nomor soal
         questionNumber.textContent = `Soal ${currentQuestionIndex + 1} dari ${currentQuiz.questions.length}`;
         
-        // Update pertanyaan
         questionText.textContent = question.question;
         
-        // Update opsi jawaban
         optionsContainer.innerHTML = '';
         question.options.forEach((option, index) => {
             const optionDiv = document.createElement('div');
@@ -262,18 +244,14 @@
             optionsContainer.appendChild(optionDiv);
         });
         
-        // Update progress
         updateProgress();
         
-        // Update buttons
         updateButtons();
     }
 
-    // Pilih jawaban
     function selectAnswer(index) {
         userAnswers[currentQuestionIndex] = index;
         
-        // Update UI
         const options = optionsContainer.querySelectorAll('.option');
         options.forEach((opt, i) => {
             if (i === index) {
@@ -288,14 +266,12 @@
         updateButtons();
     }
 
-    // Update progress bar
     function updateProgress() {
         const answeredCount = userAnswers.filter(a => a !== null).length;
         const progress = (answeredCount / currentQuiz.questions.length) * 100;
         progressBar.style.width = progress + '%';
     }
 
-    // Update tombol navigasi
     function updateButtons() {
         prevBtn.disabled = currentQuestionIndex === 0;
         
@@ -308,7 +284,6 @@
         }
     }
 
-    // Soal sebelumnya
     function previousQuestion() {
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
@@ -316,7 +291,6 @@
         }
     }
 
-    // Soal berikutnya
     function nextQuestion() {
         if (currentQuestionIndex < currentQuiz.questions.length - 1) {
             currentQuestionIndex++;
@@ -324,16 +298,13 @@
         }
     }
 
-    // Submit quiz
     async function submitQuiz() {
-        // Cek apakah semua soal sudah dijawab
         const unanswered = userAnswers.filter(a => a === null).length;
         if (unanswered > 0) {
             const confirm = window.confirm(`Masih ada ${unanswered} soal yang belum dijawab. Yakin ingin submit?`);
             if (!confirm) return;
         }
 
-        // Hitung score
         score = 0;
         currentQuiz.questions.forEach((q, i) => {
             if (userAnswers[i] === q.correct) {
@@ -344,7 +315,6 @@
         const percentage = (score / currentQuiz.questions.length) * 100;
         const timeTaken = Math.floor((Date.now() - quizStartTime) / 1000);
 
-        // Stop timer
         stopTimer();
 
         console.log('Quiz completed:', {
@@ -356,7 +326,6 @@
             answers: userAnswers
         });
 
-        // Simpan hasil ke database dengan metadata lengkap
         if (window.UserData) {
             const saveResult = await UserData.saveQuizScore(
                 currentQuiz.title,
@@ -382,20 +351,16 @@
             console.error('UserData not available!');
         }
 
-        // Tampilkan hasil
         showResults(percentage, timeTaken);
     }
 
-    // Tampilkan hasil
     function showResults(percentage, timeTaken) {
         quizContainer.style.display = 'none';
         resultContainer.style.display = 'block';
 
-        // Set score
         finalScore.textContent = `${score} / ${currentQuiz.questions.length}`;
         finalPercentage.textContent = percentage.toFixed(1) + '%';
 
-        // Set message
         let message = '';
         if (percentage >= 80) {
             message = '🎉 Luar biasa! Anda sangat memahami materi ini!';
@@ -406,7 +371,6 @@
         }
         finalMessage.textContent = message;
 
-        // Review jawaban
         reviewAnswers.innerHTML = '';
         currentQuiz.questions.forEach((q, i) => {
             const isCorrect = userAnswers[i] === q.correct;
@@ -433,7 +397,6 @@
         });
     }
 
-    // Timer
     function startTimer() {
         let seconds = 0;
         timerInterval = setInterval(() => {
@@ -451,7 +414,6 @@
         }
     }
 
-    // Kembali ke pemilihan quiz
     function backToSelection() {
         quizSelection.style.display = 'block';
         quizContainer.style.display = 'none';
@@ -459,7 +421,6 @@
         stopTimer();
     }
 
-    // Start
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {

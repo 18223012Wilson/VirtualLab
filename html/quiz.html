@@ -6,6 +6,21 @@
     <title>Quiz — Virtual Lab</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
+        .quiz-title {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin: 0 0 var(--spacing-xs) 0;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .quiz-subtitle {
+            color: var(--text-secondary);
+            margin: 0 0 var(--spacing-xl) 0;
+            font-size: 1rem;
+            text-align: center;
+        }
+
         .quiz-selection-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -198,16 +213,17 @@
     </header>
 
     <main>
-        <!-- Pemilihan Quiz -->
         <section id="quiz-selection" class="quiz-selection-container">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-lg);">
+            <div>
                 <div>
-                    <h2 class="lab-title">Pilih Quiz</h2>
-                    <p class="lab-subtitle">Uji pemahaman Anda tentang berbagai topik fisika</p>
+                    <h2 class="quiz-title">Pilih Quiz</h2>
+                    <p class="quiz-subtitle">Uji pemahaman Anda tentang berbagai topik fisika</p>
                 </div>
-                <a href="quiz_history.html"><button class="btn">
-                    📊 Lihat Riwayat
-                </button></a>
+                <div style="text-align: right; margin-top: var(--spacing-md);">
+                    <a href="quiz_history.html"><button class="btn">
+                        📊 Lihat Riwayat
+                    </button></a>
+                </div>
             </div>
 
             <div class="quiz-grid">
@@ -240,7 +256,6 @@
             </div>
         </section>
 
-        <!-- Quiz Container -->
         <section id="quiz-container" class="quiz-container" style="display: none;">
             <div class="quiz-header">
                 <h2 id="quiz-title">Quiz</h2>
@@ -267,7 +282,6 @@
             </div>
         </section>
 
-        <!-- Result Container -->
         <section id="result-container" class="result-container" style="display: none;">
             <div class="result-card">
                 <h2>Hasil Quiz</h2>
@@ -292,7 +306,6 @@
         <p>Virtual Lab: Fisika</p>
     </footer>
 
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
@@ -300,16 +313,13 @@
     <script src="../js/user_data.js"></script>
     <script src="../js/quiz_script.js"></script>
     <script>
-        // Proteksi halaman
         VirtualLabAuth.requireAuth();
         
-        // Debug: Cek apakah UserData tersedia
         console.log('UserData available:', typeof UserData !== 'undefined');
         if (typeof UserData !== 'undefined') {
             console.log('UserData methods:', Object.keys(UserData));
         }
         
-        // Logout functionality
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', async () => {

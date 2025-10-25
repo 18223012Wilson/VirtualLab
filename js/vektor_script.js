@@ -4,7 +4,6 @@ if (!canvas) { console.error('vectorCanvas not found'); return; }
 const ctx = canvas.getContext('2d');
 if (!ctx) { console.error('2D context not available'); return; }
 
-// Result UI elements
 const resXEl = document.getElementById('resX');
 const resYEl = document.getElementById('resY');
 const resMagEl = document.getElementById('resMag');
@@ -19,7 +18,6 @@ const showGridCheckbox = document.getElementById('showGrid');
 
 const vectorsListEl = document.getElementById('vectorsList');
 
-// Debug: pastikan semua elemen ada
 console.log('Canvas:', canvas, 'Context:', ctx);
 console.log('Inputs:', xInput, yInput, colorInput);
 console.log('Buttons:', addBtn, clearBtn);
@@ -40,14 +38,13 @@ function resizeCanvas(){
 }
 
 window.addEventListener('resize', resizeCanvas);
-setTimeout(resizeCanvas, 100); // delay untuk memastikan DOM ready
+setTimeout(resizeCanvas, 100);
 
-// origin = center of canvas
 function origin(){
     return { x: canvas.width / 2, y: canvas.height / 2 };
 }
 
-let vectors = []; // each {x,y,color,id} where x,y are components in canvas pixels (x right, y up)
+let vectors = [];
 
 let idCounter = 1;
 
@@ -74,7 +71,6 @@ function clearVectors(){
 if (addBtn) addBtn.addEventListener('click', addVectorFromControls);
 if (clearBtn) clearBtn.addEventListener('click', clearVectors);
 
-// drawing utilities
 function drawGrid(){
     if (!showGridCheckbox || !showGridCheckbox.checked) return;
     const o = origin();
@@ -82,34 +78,34 @@ function drawGrid(){
     ctx.save();
     ctx.strokeStyle = 'rgba(255,255,255,0.1)';
     ctx.lineWidth = 1;
-    // vertical lines
+
     for(let x = o.x % step; x < canvas.width; x += step){
         ctx.beginPath(); 
         ctx.moveTo(x, 0); 
         ctx.lineTo(x, canvas.height); 
         ctx.stroke();
     }
-    // horizontal lines
+
     for(let y = o.y % step; y < canvas.height; y += step){
         ctx.beginPath(); 
         ctx.moveTo(0, y); 
         ctx.lineTo(canvas.width, y); 
         ctx.stroke();
     }
-    // axes
+
     ctx.strokeStyle = 'rgba(255,255,255,0.3)';
     ctx.lineWidth = 2;
-    // x-axis
+
     ctx.beginPath(); 
     ctx.moveTo(0, o.y); 
     ctx.lineTo(canvas.width, o.y); 
     ctx.stroke();
-    // y-axis
+
     ctx.beginPath(); 
     ctx.moveTo(o.x, 0); 
     ctx.lineTo(o.x, canvas.height); 
     ctx.stroke();
-    // origin marker
+
     ctx.fillStyle = '#fff'; 
     ctx.beginPath(); 
     ctx.arc(o.x, o.y, 4, 0, Math.PI*2); 
@@ -121,7 +117,7 @@ function drawArrow(x1, y1, x2, y2, color, width=3, head=10){
     const dx = x2 - x1;
     const dy = y2 - y1;
     const len = Math.hypot(dx, dy);
-    if (len < 1) return; // don't draw if too short
+    if (len < 1) return;
     
     ctx.save();
     ctx.strokeStyle = color;
@@ -132,7 +128,6 @@ function drawArrow(x1, y1, x2, y2, color, width=3, head=10){
     ctx.lineTo(x2, y2);
     ctx.stroke();
     
-    // head
     const angle = Math.atan2(dy, dx);
     ctx.beginPath();
     ctx.moveTo(x2, y2);
@@ -152,18 +147,17 @@ function draw(){
     drawGrid();
     const o = origin();
 
-    // draw each vector (base at origin)
     vectors.forEach((v, idx) => {
         const x2 = o.x + v.x;
-        const y2 = o.y - v.y; // invert y for screen (positive y goes up in math, down in canvas)
+        const y2 = o.y - v.y;
         console.log(`Drawing vector ${idx}:`, v, 'to', x2, y2);
         drawArrow(o.x, o.y, x2, y2, v.color, 3, 10);
-        // tip marker
+    
         ctx.fillStyle = v.color;
         ctx.beginPath();
         ctx.arc(x2, y2, 5, 0, Math.PI*2);
         ctx.fill();
-        // label
+    
         ctx.font = '12px Arial';
         ctx.fillStyle = '#fff';
         ctx.textAlign = 'left';
@@ -172,7 +166,6 @@ function draw(){
         ctx.fillText(`${mag.toFixed(1)}px @ ${ang.toFixed(0)}°`, x2 + 8, y2 - 8);
     });
 
-    // resultant - hanya tampilkan jika ada minimal 2 vektor
     if (vectors.length >= 2) {
         const R = resultant();
         const rx = o.x + R.x;
@@ -182,14 +175,13 @@ function draw(){
         ctx.beginPath(); 
         ctx.arc(rx, ry, 6, 0, Math.PI*2); 
         ctx.fill();
-        // label resultan
+    
         ctx.font = 'bold 13px Arial';
         ctx.fillStyle = '#00E676';
         ctx.fillText(`R: ${R.mag.toFixed(1)}px`, rx + 10, ry - 10);
     }
 }
 
-// math helpers
 function resultant(){
     let sx = 0, sy = 0;
     vectors.forEach(v => { sx += v.x; sy += v.y; });
@@ -210,7 +202,6 @@ function updateResultUI(){
     if (resAngleEl) resAngleEl.textContent = angDeg.toFixed(2) + '°';
 }
 
-// list management
 function rebuildList(){
     if (!vectorsListEl) return;
     vectorsListEl.innerHTML = '';
@@ -249,14 +240,13 @@ function rebuildList(){
     updateResultUI();
 }
 
-// dragging tip
 let dragging = null;
 canvas.addEventListener('pointerdown', (e)=>{
     const rect = canvas.getBoundingClientRect();
     const x = (e.clientX - rect.left);
     const y = (e.clientY - rect.top);
     const o = origin();
-    // find nearest tip
+
     let found = null;
     for(let i = vectors.length - 1; i >= 0; i--){
         const v = vectors[i];
@@ -281,7 +271,7 @@ canvas.addEventListener('pointermove', (e)=>{
     const y = (e.clientY - rect.top);
     const o = origin();
     const vx = x - o.x;
-    const vy = o.y - y; // convert screen to math y
+    const vy = o.y - y;
     vectors[dragging.idx].x = vx;
     vectors[dragging.idx].y = vy;
     rebuildList();
@@ -295,12 +285,10 @@ canvas.addEventListener('pointerup', (e)=>{
     }
 });
 
-// recompute & redraw on toggle
 if (showGridCheckbox) {
     showGridCheckbox.addEventListener('change', draw);
 }
 
-// initial helpers
 rebuildList();
 draw();
 

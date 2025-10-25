@@ -20,7 +20,6 @@
     </header>
 
     <main>
-        <!-- Tampilan Lab Vektor -->
         <section id="vektor-lab-view" class="view-container lab-layout">
             <h2 class="lab-title">Resultan Vektor</h2>
             <p class="lab-subtitle">Dalam ilmu fisika, vektor merupakan besaran yang memiliki nilai dan arah. Dalam konteks ini, vektor tidak hanya mencerminkan nilai besaran, tetapi juga mengindikasikan ke arah mana besaran tersebut bergerak. Contohnya adalah pada konsep gaya, di mana vektor gaya tidak sekadar mencerminkan besar gaya yang bekerja, melainkan juga menunjukkan arah gaya tersebut bekerja.</p>
@@ -50,7 +49,6 @@
             <p class="lab-subtitle">Simulasikan penjumlahan vektor dengan menambahkan vektor menggunakan koordinat (x,y). Resultan akan ditampilkan sebagai panah hijau ketika terdapat minimal 2 vektor.</p>
 
             <div class="main-grid">
-                <!-- Kolom Kiri: Kontrol dan Hasil -->
                 <div>
                     <section id="controls" class="card">
                         <h2>Tambah Vektor</h2>
@@ -96,12 +94,10 @@
                             Drag ujung panah untuk mengubah vektor
                         </p>
                         <div style="max-height: 200px; overflow-y: auto; margin-top:8px;" id="vectorsList">
-                            <!-- Vektor akan muncul di sini -->
                         </div>
                     </section>
                 </div>
 
-                <!-- Kolom Kanan: Visualisasi -->
                 <section id="visualization" class="card">
                     <h2>Visualisasi Vektor</h2>
                     <canvas id="vectorCanvas" width="800" height="450"></canvas>
@@ -116,16 +112,13 @@
 
     <script src="../js/vektor_script.js"></script>
     
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="../js/auth.js"></script>
     <script>
-        // Proteksi halaman - redirect ke login jika belum login
         VirtualLabAuth.requireAuth();
         
-        // Logout functionality
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', async () => {

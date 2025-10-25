@@ -1,9 +1,6 @@
-// Modul untuk menyimpan dan mengelola data aktivitas user
-
 (function() {
     'use strict';
 
-    // Fungsi untuk menyimpan progress lab
     async function saveProgress(labName, data) {
         try {
             const auth = VirtualLabAuth.getFirebaseAuth();
@@ -28,7 +25,6 @@
                 username: currentUser.username
             };
 
-            // Simpan ke Firebase Firestore
             await db.collection('user_progress')
                 .doc(auth.currentUser.uid)
                 .collection('labs')
@@ -43,7 +39,6 @@
         }
     }
 
-    // Fungsi untuk menyimpan hasil simulasi
     async function saveSimulationResult(labName, parameters, results) {
         try {
             const auth = VirtualLabAuth.getFirebaseAuth();
@@ -69,7 +64,6 @@
                 username: currentUser.username
             };
 
-            // Simpan ke Firebase Firestore
             await db.collection('simulation_results')
                 .doc(auth.currentUser.uid)
                 .collection('results')
@@ -83,7 +77,6 @@
         }
     }
 
-    // Fungsi untuk menyimpan nilai quiz
     async function saveQuizScore(quizName, score, maxScore, answers, metadata = {}) {
         try {
             const auth = VirtualLabAuth.getFirebaseAuth();
@@ -113,8 +106,6 @@
             };
 
             console.log('Saving quiz score:', quizData);
-
-            // Simpan ke Firebase Firestore
             await db.collection('quiz_scores')
                 .doc(auth.currentUser.uid)
                 .collection('scores')
@@ -127,8 +118,7 @@
             return { success: false, message: error.message };
         }
     }
-
-    // Fungsi untuk mendapatkan progress user
+    
     async function getProgress(labName) {
         try {
             const auth = VirtualLabAuth.getFirebaseAuth();
@@ -137,8 +127,7 @@
             if (!db || !auth || !auth.currentUser) {
                 return null;
             }
-
-            // Ambil dari Firestore
+    
             const doc = await db.collection('user_progress')
                 .doc(auth.currentUser.uid)
                 .collection('labs')
@@ -152,7 +141,6 @@
         }
     }
 
-    // Fungsi untuk mendapatkan semua hasil simulasi user
     async function getAllResults() {
         try {
             const auth = VirtualLabAuth.getFirebaseAuth();
@@ -162,16 +150,14 @@
                 console.log('Firestore not available');
                 return [];
             }
-
-            // Ambil dari Firestore
+     
             const snapshot = await db.collection('simulation_results')
                 .doc(auth.currentUser.uid)
                 .collection('results')
                 .get();
             
             const results = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            
-            // Sort by timestamp descending
+                     
             results.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
             
             return results;
@@ -180,11 +166,9 @@
             return [];
         }
     }
-
-    // Fungsi untuk mendapatkan semua nilai quiz user
+   
     async function getAllQuizScores() {
-        try {
-            // Tunggu Firebase selesai initialize
+        try {           
             await waitForFirebase();
 
             const auth = VirtualLabAuth.getFirebaseAuth();
@@ -202,8 +186,7 @@
             }
 
             console.log('Fetching quiz scores from Firestore for uid:', auth.currentUser.uid);
-
-            // Ambil dari Firestore
+            
             const snapshot = await db.collection('quiz_scores')
                 .doc(auth.currentUser.uid)
                 .collection('scores')
@@ -215,8 +198,7 @@
                 id: doc.id, 
                 ...doc.data() 
             }));
-            
-            // Sort by timestamp descending
+                       
             scores.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
             
             console.log('Quiz scores fetched:', scores.length, 'items');
@@ -232,8 +214,7 @@
             return [];
         }
     }
-
-    // Helper function: tunggu Firebase siap
+   
     function waitForFirebase(maxAttempts = 10) {
         return new Promise((resolve) => {
             let attempts = 0;
@@ -247,11 +228,10 @@
                     console.log(`Firebase ready after ${attempts} attempts`);
                     resolve();
                 }
-            }, 300); // Check every 300ms
+            }, 300); 
         });
     }
-
-    // Fungsi untuk log aktivitas user
+    
     async function logActivity(activityType, description, metadata = {}) {
         try {
             const auth = VirtualLabAuth.getFirebaseAuth();
@@ -270,8 +250,7 @@
                 userId: auth.currentUser.uid,
                 username: currentUser.username
             };
-
-            // Simpan ke Firestore
+           
             await db.collection('user_activities')
                 .doc(auth.currentUser.uid)
                 .collection('activities')
@@ -281,7 +260,6 @@
         }
     }
 
-    // Fungsi untuk hapus quiz score
     async function deleteQuizScore(scoreId) {
         try {
             const auth = VirtualLabAuth.getFirebaseAuth();
@@ -304,8 +282,7 @@
             return { success: false, message: error.message };
         }
     }
-
-    // Export fungsi ke global scope
+    
     window.UserData = {
         saveProgress,
         saveSimulationResult,
@@ -315,6 +292,6 @@
         getAllQuizScores,
         logActivity,
         deleteQuizScore,
-        waitForFirebase // Export helper
+        waitForFirebase 
     };
 })();

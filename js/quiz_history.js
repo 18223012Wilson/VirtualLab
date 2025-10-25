@@ -1,12 +1,9 @@
-// Quiz History Script
-
 (function() {
     'use strict';
 
     let allQuizzes = [];
     let filteredQuizzes = [];
 
-    // DOM Elements
     const totalQuizzesEl = document.getElementById('totalQuizzes');
     const avgScoreEl = document.getElementById('avgScore');
     const bestScoreEl = document.getElementById('bestScore');
@@ -18,11 +15,10 @@
     const sortBy = document.getElementById('sortBy');
     const exportBtn = document.getElementById('exportBtn');
 
-    // Init
     async function init() {
         console.log('Initializing quiz history...');
         
-        // Tunggu Firebase siap
+
         if (window.UserData && window.UserData.waitForFirebase) {
             console.log('Waiting for Firebase to be ready...');
             await UserData.waitForFirebase();
@@ -34,12 +30,10 @@
         applyFilters();
     }
 
-    // Load quiz history
     async function loadQuizHistory() {
         try {
             console.log('Loading quiz history...');
-            
-            // Double check Firebase
+    
             const auth = VirtualLabAuth.getFirebaseAuth();
             const db = VirtualLabAuth.getFirebaseDb();
             console.log('Firebase status before load:');
@@ -63,7 +57,6 @@
         }
     }
 
-    // Setup event listeners
     function setupEventListeners() {
         if (filterQuiz) filterQuiz.addEventListener('change', applyFilters);
         if (filterPeriod) filterPeriod.addEventListener('change', applyFilters);
@@ -71,18 +64,15 @@
         if (exportBtn) exportBtn.addEventListener('click', exportResults);
     }
 
-    // Apply filters
     function applyFilters() {
         console.log('Applying filters to', allQuizzes.length, 'quizzes');
         let filtered = [...allQuizzes];
 
-        // Filter by quiz type
         const quizType = filterQuiz ? filterQuiz.value : 'all';
         if (quizType !== 'all') {
             filtered = filtered.filter(q => q.quizName === quizType);
         }
 
-        // Filter by period
         const period = filterPeriod ? filterPeriod.value : 'all';
         const now = new Date();
         filtered = filtered.filter(q => {
@@ -101,7 +91,6 @@
             }
         });
 
-        // Sort
         const sortType = sortBy ? sortBy.value : 'newest';
         filtered.sort((a, b) => {
             switch(sortType) {
@@ -125,7 +114,6 @@
         updateStatistics();
     }
 
-    // Display quizzes
     function displayQuizzes() {
         console.log('Displaying', filteredQuizzes.length, 'quizzes');
         
@@ -152,7 +140,6 @@
         console.log('✅ Quizzes displayed');
     }
 
-    // Create quiz item
     function createQuizItem(quiz, index) {
         const div = document.createElement('div');
         div.className = 'history-item';
@@ -219,7 +206,6 @@
         return div;
     }
 
-    // Get badge
     function getBadge(percentage) {
         if (percentage >= 80) {
             return { class: 'excellent', text: '🎉 Luar Biasa' };
@@ -232,7 +218,6 @@
         }
     }
 
-    // Calculate time taken
     function calculateTimeTaken(quiz) {
         if (quiz.metadata && quiz.metadata.timeTaken !== undefined) {
             const seconds = quiz.metadata.timeTaken;
@@ -251,7 +236,6 @@
         return 'Tidak tersedia';
     }
 
-    // Update statistics
     function updateStatistics() {
         console.log('Updating statistics for', allQuizzes.length, 'quizzes');
         
@@ -270,15 +254,12 @@
             return;
         }
 
-        // Average score
         const avgPercentage = allQuizzes.reduce((sum, q) => sum + q.percentage, 0) / total;
         avgScoreEl.textContent = avgPercentage.toFixed(1) + '%';
 
-        // Best score
         const best = Math.max(...allQuizzes.map(q => q.percentage));
         bestScoreEl.textContent = best.toFixed(1) + '%';
 
-        // Pass rate (>=60%)
         const passed = allQuizzes.filter(q => q.percentage >= 60).length;
         const passRate = (passed / total) * 100;
         passRateEl.textContent = passRate.toFixed(1) + '%';
@@ -286,7 +267,6 @@
         console.log('✅ Statistics updated');
     }
 
-    // View details
     function viewDetails(index) {
         const reviewDiv = document.getElementById(`review-${index}`);
         if (!reviewDiv) return;
@@ -315,12 +295,10 @@
         }
     }
 
-    // Retake quiz
     function retakeQuiz(quizName) {
         window.location.href = 'quiz.html';
     }
 
-    // Delete quiz
     async function deleteQuiz(index) {
         const confirmed = confirm('Apakah Anda yakin ingin menghapus hasil quiz ini?');
         if (!confirmed) return;
@@ -347,7 +325,6 @@
         }
     }
 
-    // Export results
     function exportResults() {
         if (filteredQuizzes.length === 0) {
             alert('Tidak ada data untuk diekspor');
@@ -378,14 +355,12 @@
         alert('Hasil quiz berhasil diekspor!');
     }
 
-    // Export functions
     window.QuizHistory = {
         viewDetails,
         retakeQuiz,
         deleteQuiz
     };
 
-    // Start - PASTIKAN INI DIJALANKAN
     console.log('Quiz history script loaded, waiting for DOM...');
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
