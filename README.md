@@ -21,38 +21,29 @@ Virtual Lab:Fisika dapat diakses dan digunakan melalui laman https://18223012wil
 
 
 ## Program Screenshots
-Register Page
-![Register Page](<img width="1815" height="913" alt="image" src="https://github.com/user-attachments/assets/df7f141c-a094-46a0-a5e9-e36af39c0165" />
-)
+### Register Page
+![Register Page](/asset/register.png)
 
-Login Page
-![Login Page](<img width="1815" height="913" alt="image" src="https://github.com/user-attachments/assets/29e0d3ab-fd7f-4c13-b3a9-9612db4548b8" />
-)
+### Login Page
+![Login Page](/asset/login.png)
 
-Beranda
-![Beranda](<img width="1824" height="913" alt="image" src="https://github.com/user-attachments/assets/34278ba3-0eb9-4542-8e55-dc443cbccfeb" />
-)
+### Beranda
+![Beranda](/asset/beranda.png)
 
-Contoh Artikel
-![Contoh Artikel](<img width="1801" height="913" alt="image" src="https://github.com/user-attachments/assets/a75c154b-091a-4671-b140-1fcfdb2dc7aa" />
-)
+### Contoh Artikel
+![Contoh Artikel](/asset/contohartikel.png)
 
-Contoh Virtual Lab
-![Contoh Virtual Lab](<img width="1809" height="913" alt="image" src="https://github.com/user-attachments/assets/f5cd8b2f-9489-4c12-a978-de942f862e67" />
-)
+### Contoh Virtual Lab
+![Contoh Virtual Lab](/asset/contohlab.png)
 
-Menu Quiz
-![Menu Quiz](<img width="1799" height="913" alt="image" src="https://github.com/user-attachments/assets/9aedc6d4-c5c8-46d5-9fed-b319cf8a3fc0" />
-)
+### Menu Quiz
+![Menu Quiz](/asset/menuquiz.png)
 
-Contoh Halaman Quiz
-![Contoh Halaman Quiz](<img width="1801" height="913" alt="image" src="https://github.com/user-attachments/assets/ba833881-574a-4ed3-8141-48da0a4f4fbd" />
-)
+### Contoh Halaman Quiz
+![Contoh Halaman Quiz](/asset/contohquiz.png)
 
-Riwayat Quiz
-![Riwayat Quiz](<img width="1801" height="913" alt="image" src="https://github.com/user-attachments/assets/89b62b0a-dcd0-4f3d-9859-4db63ec034e9" />
-)
+### Riwayat Quiz
+![Riwayat Quiz](/asset/riwayatquiz.png)
 
-Pengaturan Profil Akun
-![Pengaturan Profil Akun](<img width="1819" height="913" alt="image" src="https://github.com/user-attachments/assets/63c92fa5-2aa4-4158-bde1-28e3257e3813" />
-)
+### Pengaturan Profil Akun
+![Pengaturan Profil Akun](/asset/profilakun.png)
